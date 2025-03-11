@@ -1,0 +1,61 @@
+body {
+margin: 0;
+font-family: sans-serif;
+background-color: #000;
+color: #fff;
+display: flex;
+justify-content: center;
+align-items: center;
+min-height: 100vh;
+}
+
+.container {
+width: 100%;
+max-width: 400px;
+border-radius: 10px;
+overflow: hidden;
+}
+
+.background-image {
+background-image: url('background.png');
+background-size: cover;
+background-position: center;
+height: 200px;
+}
+
+.profile-section {
+padding: 20px;
+text-align: center;
+}
+
+.profile-picture {
+width: 100px;
+height: 100px;
+border-radius: 50%;
+object-fit: cover;
+margin-bottom: 10px;
+}
+
+h2 {
+margin: 0;
+font-size: 1.5em;
+}
+
+.username {
+color: #aaa;
+margin-bottom: 15px;
+}
+
+.social-links {
+display: flex;
+justify-content: center;
+}
+
+.social-links a {
+margin: 0 10px;
+}
+
+.social-links img {
+width: 30px;
+height: 30px;
+}
