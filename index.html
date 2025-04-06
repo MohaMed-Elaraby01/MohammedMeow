@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ملف التعريف</title>
+<style>
+body {
+font-family: Arial, sans-serif;
+background-color: #000; /* لون الخلفية */
+color: white; /* لون النص */
+display: flex;
+flex-direction: column;
+align-items: center;
+padding-top: 20px;
+}
+
+.banner {
+width: 100%; /* عرض البانر الكامل */
+max-width: 600px; /* الحد الأقصى لعرض البانر */
+height: 200px; /* ارتفاع البانر */
+background-color: #333; /* لون خلفية البانر */
+margin-bottom: 20px;
+border-radius: 10px; /* زوايا دائرية للبانر */
+overflow: hidden; /* لإخفاء أي شيء يخرج عن حدود البانر */
+}
+
+.banner img {
+width: 100%; /* عرض الصورة الكامل */
+height: 100%; /* ارتفاع الصورة الكامل */
+object-fit: cover; /* لتغطية المساحة المتاحة مع الحفاظ على نسبة العرض إلى الارتفاع */
+}
+
+.profile-picture {
+width: 100px; /* حجم الصورة */
+height: 100px; /* حجم الصورة */
+border-radius: 50%; /* لجعلها دائرية */
+margin-top: -50px; /* رفع الصورة فوق البانر */
+border: 4px solid white; /* حدود بيضاء حول الصورة */
+}
+
+.username {
+font-size: 22px; /* حجم خط اسم المستخدم */
+font-weight: bold; /* جعل الخط عريض */
+margin-top: 10px; /* إضافة مسافة علوية لرفع اسم المستخدم */
+}
+
+.description {
+text-align: center;
+padding: 10px;
+max-width: 600px; /* الحد الأقصى لعرض الوصف */
+}
+
+.social-links {
+margin-top: 10px;
+}
+
+.social-links img {
+width: 30px;
+height: 30px;
+margin: 0 10px;
+}
+
+.music-player {
+margin-top: 20px;
+text-align: center;
+}
+
+#play-pause {
+background-color: #333;
+color: white;
+border: none;
+padding: 10px 20px;
+cursor: pointer;
+}
+
+#play-pause:hover {
+background-color: #555;
+}
+
+.visitor-count {
+position: absolute; /* لجعلها في أسفل الصفحة */
+left: 10px; /* المسافة من الطرف الأيسر */
+bottom: 10px; /* المسافة من الأسفل */
+display: flex;
+align-items: center;
+}
+
+.eye-icon {
+width: 20px; /* عرض الأيقونة */
+height: 20px; /* ارتفاع الأيقونة */
+margin-right: 5px; /* مسافة بين الأيقونة والنص */
+}
+
+</style>
+</head>
+<body>
+<div class="banner">
+<img src="background.gif" alt="Banner"> <!-- تأكد من استخدام رابط الصورة الصحيح -->
+</div>
+
+<img src="profile.png" alt="صورة الملف الشخصي" class="profile-picture"> <!-- تأكد من استخدام رابط الصورة الصحيح -->
+
+<h2 class="username">! Mohammed</h2> <!-- تمت إضافة class هنا -->
+
+<p>he/him</p> <!-- تأكد من كتابة اسم المستخدم الصحيح -->
+
+<div class="description">
+    <p>TRUE FRIENDSHIP "NEVER" ENDS, Friends are FOREVER.</p>
+</div>
+
+<div class="social-links">
+    <a href="https://www.youtube.com/@mo.4k-up" target="_blank"><img src="youtube.png" alt="YouTube"></a>
+    <a href="https://www.instagram.com/i7modx1?igsh=cGZ0ZDBqcjZhNnds" target="_blank"><img src="instagram.png" alt="Instagram"></a>
+    <a href="https://discord.gg/z7ES3xXsCc" target="_blank"><img src="discord.png" alt="Discord"></a>
+    <a href="https://t.me/IMohaMed_UP" target="_blank"><img src="telegram.png" alt="Telegram"></a>
+</div>
+
+<!-- قسم عدد الزوار -->
+<div class="visitor-count">
+<img src="eye-icon.png" alt="علامة عين" class="eye-icon"> <!-- استبدل eye-icon.png برابط الأيقونة -->
+
+<span id="visitor-count">1</span> <!-- سيتم تحديث العدد هنا -->
+</div>
+
+<!-- مشغل الموسيقى -->
+<div class="music-player">
+<button id="play-pause">Meow</button>
+<span id="song-info">:3</span>
+<audio id="myAudio" loop>
+<source src="Nti.mp3" type="audio/mpeg">
+Your browser does not support the audio element.
+</audio>
+</div>
+<script>
+
+// التحقق من عدد الزوار في Local Storage
+
+let visitorCount = 1; // عدد الزوار يبدأ من 1
+// التحقق مما إذا كان هناك عدد زوار مخزن
+
+if (localStorage.getItem('visitorCount')) {
+visitorCount = parseInt(localStorage.getItem('visitorCount')) + 1; // زيادة العدد بمقدار 1
+}
+
+// تحديث Local Storage بالعدد الجديد
+localStorage.setItem('visitorCount', visitorCount);
+// تحديث النص ليظهر عدد الزوار الحالي
+document.getElementById('visitor-count').innerText = `${visitorCount}`;
+// تشغيل الموسيقى عند تحميل الصفحة
+window.onload = function() {
+var audio = document.getElementById('myAudio');
+audio.play();
+};
+</script>
+</body>
+</html>
