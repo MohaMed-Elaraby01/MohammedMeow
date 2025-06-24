@@ -1,98 +1,99 @@
 body {
-    margin: 0;
-    font-family: sans-serif;
-    background-color: #000;
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+  margin: 0;
+  font-family: sans-serif;
+  background-color: #000;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  flex-direction: column;
+  position: relative;
 }
 
 .container {
-    width: 100%;
-    max-width: 400px;
-    border-radius: 10px;
-    overflow: hidden;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 .background-image {
-    background-image: url('background.png');
-    background-size: cover;
-    background-position: center;
-    height: 200px;
+  background-image: url('background.gif');
+  background-size: cover;
+  background-position: center;
+  height: 200px;
 }
 
 .profile-section {
-    padding: 20px;
-    text-align: center;
+  padding: 20px;
+  text-align: center;
 }
 
 .profile-picture {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-bottom: 10px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-top: -50px;
+  border: 4px solid #000;
+  background-color: #000;
 }
 
 h2 {
-    margin: 0;
-    font-size: 1.5em;
+  margin: 10px 0 5px;
+  font-size: 1.5em;
 }
 
 .username {
-    color: #aaa;
-    margin-bottom: 5px;
+  color: #aaa;
+  margin-bottom: 15px;
 }
 
 .social-links {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .social-links a {
-    margin: 0 10px;
+  margin: 0 10px;
 }
 
 .social-links img {
-    width: 30px;
-    height: 30px;
+  width: 30px;
+  height: 30px;
 }
 
-/* تم إخفاء مشغل الموسيقى */
+/* عداد الزوار */
+.visitor-count {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.eye-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
+
+/* مشغل الموسيقى */
 .music-player {
-    display: none; /* إخفاء المشغل */
+  margin-top: 20px;
+  text-align: center;
 }
 
-/* تعديل الزر لتشغيل الموسيقى */
 #play-pause {
-    background-color: #222; /* رمادي داكن */
-    color: #fff; /* أبيض */
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
+  background-color: #333;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-/* تعديل شريط التقدم */
-input[type="range"] {
-    width: 100%;
-    background-color: #444; /* رمادي داكن */
-}
-
-input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 15px;
-    height: 15px;
-    background-color: #fff; /* أبيض */
-    border-radius: 50%;
-}
-
-input[type="range"]::-moz-range-thumb {
-    width: 15px;
-    height: 15px;
-    background-color: #fff; /* أبيض */
-    border-radius: 50%;
+#play-pause:hover {
+  background-color: #555;
 }
