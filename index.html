@@ -3,7 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ملف التعريف</title>
+  <title>o.o</title>
+
+  <!-- صورة الموقع-->
+  <link rel="icon" type="image/png" href="favicon.png">
+
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,7 +17,7 @@
     <div class="profile-section">
       <img src="profile.png" alt="صورة الملف الشخصي" class="profile-picture">
       <h2>Little King</h2>
-      <p class="username">@Mahmmoud</p>
+      <p class="username">@Mohammed, Not mahmmoud</p>
 
       <div class="social-links">
         <a href="https://www.youtube.com/@Mohammed_Sayed3" target="_blank"><img src="youtube.png" alt="YouTube"></a>
@@ -39,26 +43,27 @@
     </audio>
   </div>
 
-
   <script>
-let visitorCount = 160;
-if (localStorage.getItem('visitorCount')) {
-  visitorCount = parseInt(localStorage.getItem('visitorCount')) + 1;
-}
-localStorage.setItem('visitorCount', visitorCount);
-document.getElementById('visitor-count').innerText = `${visitorCount}`;
+    let visitorCount = 160;
+    if (localStorage.getItem('visitorCount')) {
+      visitorCount = parseInt(localStorage.getItem('visitorCount')) + 1;
+    }
+    localStorage.setItem('visitorCount', visitorCount);
+    document.getElementById('visitor-count').innerText = `${visitorCount}`;
 
-// تشغيل / إيقاف الموسيقى عند الضغط على الزر
-const playPauseBtn = document.getElementById('play-pause');
-const audio = document.getElementById('myAudio');
+    // تشغيل/إيقاف الموسيقى بزر واحد
+    const playPauseBtn = document.getElementById('play-pause');
+    const audio = document.getElementById('myAudio');
 
-playPauseBtn.addEventListener('click', () => {
-  if (audio.paused) {
-    audio.play();
-    playPauseBtn.textContent = "pause";
-  } else {
-    audio.pause();
-    playPauseBtn.textContent = "music";
-  }
-});
+    playPauseBtn.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play();
+        playPauseBtn.textContent = "pause";
+      } else {
+        audio.pause();
+        playPauseBtn.textContent = "music";
+      }
+    });
   </script>
+</body>
+</html>
