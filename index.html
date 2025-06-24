@@ -39,18 +39,26 @@
     </audio>
   </div>
 
-  <script>
-    let visitorCount = 160;
-    if (localStorage.getItem('visitorCount')) {
-      visitorCount = parseInt(localStorage.getItem('visitorCount')) + 1;
-    }
-    localStorage.setItem('visitorCount', visitorCount);
-    document.getElementById('visitor-count').innerText = `${visitorCount}`;
 
-    window.onload = function() {
-      var audio = document.getElementById('myAudio');
-      audio.play();
-    };
+  <script>
+let visitorCount = 160;
+if (localStorage.getItem('visitorCount')) {
+  visitorCount = parseInt(localStorage.getItem('visitorCount')) + 1;
+}
+localStorage.setItem('visitorCount', visitorCount);
+document.getElementById('visitor-count').innerText = `${visitorCount}`;
+
+// تشغيل / إيقاف الموسيقى عند الضغط على الزر
+const playPauseBtn = document.getElementById('play-pause');
+const audio = document.getElementById('myAudio');
+
+playPauseBtn.addEventListener('click', () => {
+  if (audio.paused) {
+    audio.play();
+    playPauseBtn.textContent = "pause";
+  } else {
+    audio.pause();
+    playPauseBtn.textContent = "music";
+  }
+});
   </script>
-</body>
-</html>
