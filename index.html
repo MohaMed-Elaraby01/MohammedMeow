@@ -22,28 +22,82 @@
       </div>
     </div>
 
-    <!-- قسم عدد الزوار -->
     <div class="visitor-count">
       <img src="eye-icon.png" alt="علامة عين" class="eye-icon">
       <span id="visitor-count">1</span>
     </div>
   </div>
 
-  <!-- مشغل الموسيقى الجديد -->
-<div class="music-box" id="musicBox">
-  <img id="currentSongImage" src="cover1.jpg" alt="Current Song">
-</div>
-
-<div class="song-list" id="songList">
-  <div class="song" data-src="اغنية-دمتي-امي-ريمكس-128Kbps-44KHz.m4a" data-img="cover1.jpg" data-title="دمتي يا أمي">
-    <img src="cover1.jpg" alt="أغنية 1">
-    <span>دمتي يا أمي</span>
+  <!-- مربع الموسيقى -->
+  <div class="music-box" id="musicBox">
+    <img id="currentSongImage" src="cover1.jpg" alt="Current Song">
   </div>
-</div>
 
-<div class="controls" id="controls" style="display: none;">
-  <button id="playPauseBtn">▶️</button>
-  <span id="nowPlaying">لا شيء</span>
-</div>
+  <!-- قائمة الأغاني -->
+  <div class="song-list" id="songList">
+    <div class="song" data-src="اغنية-دمتي-امي-ريمكس-128Kbps-44KHz.m4a" data-img="cover1.jpg" data-title="دمتي يا أمي">
+      <img src="cover1.jpg" alt="دمتي يا أمي">
+      <span>دمتي يا أمي</span>
+    </div>
+  </div>
 
-<audio id="audioPlayer" loop></audio>
+  <!-- زر التشغيل -->
+  <div class="controls" id="controls" style="display: none;">
+    <button id="playPauseBtn">▶️</button>
+    <span id="nowPlaying">لا شيء</span>
+  </div>
+
+  <audio id="audioPlayer" loop></audio>
+
+  <script>
+    let visitorCount = 160;
+    if (localStorage.getItem('visitorCount')) {
+      visitorCount = parseInt(localStorage.getItem('visitorCount')) + 1;
+    }
+    localStorage.setItem('visitorCount', visitorCount);
+    document.getElementById('visitor-count').innerText = `${visitorCount}`;
+
+    const musicBox = document.getElementById('musicBox');
+    const songList = document.getElementById('songList');
+    const controls = document.getElementById('controls');
+    const audioPlayer = document.getElementById('audioPlayer');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const nowPlaying = document.getElementById('nowPlaying');
+    const currentSongImage = document.getElementById('currentSongImage');
+
+    let isPlaying = false;
+
+    musicBox.addEventListener('click', () => {
+      songList.classList.toggle('show');
+    });
+
+    document.querySelectorAll('.song').forEach(song => {
+      song.addEventListener('click', () => {
+        const src = song.getAttribute('data-src');
+        const img = song.getAttribute('data-img');
+        const title = song.getAttribute('data-title');
+
+        audioPlayer.src = src;
+        currentSongImage.src = img;
+        nowPlaying.textContent = title;
+        controls.style.display = 'flex';
+        audioPlayer.play();
+        isPlaying = true;
+        playPauseBtn.textContent = '⏸️';
+        songList.classList.remove('show'); // إخفاء القائمة بعد الاختيار
+      });
+    });
+
+    playPauseBtn.addEventListener('click', () => {
+      if (isPlaying) {
+        audioPlayer.pause();
+        playPauseBtn.textContent = '▶️';
+      } else {
+        audioPlayer.play();
+        playPauseBtn.textContent = '⏸️';
+      }
+      isPlaying = !isPlaying;
+    });
+  </script>
+</body>
+</html>
