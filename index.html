@@ -4,21 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>o.o</title>
-
-  <!-- صورة الموقع-->
   <link rel="icon" type="image/png" href="favicon.png">
-
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
     <div class="background-image"></div>
-
     <div class="profile-section">
       <img src="profile.png" alt="صورة الملف الشخصي" class="profile-picture">
       <h2>Little King</h2>
       <p class="username">@Mahmmoud</p>
-
       <div class="social-links">
         <a href="https://www.youtube.com/@Mohammed_Sayed3" target="_blank"><img src="youtube.png" alt="YouTube"></a>
         <a href="https://www.instagram.com/vx1.mohammed?igsh=cGZ0ZDBqcjZhNnds" target="_blank"><img src="instagram.png" alt="Instagram"></a>
@@ -34,14 +29,32 @@
     </div>
   </div>
 
-  <!-- مشغل الموسيقى -->
-  <div class="music-player">
-    <button id="play-pause">music</button>
-    <span id="song-info"></span>
-    <audio id="myAudio" loop>
-      <source src="Nti.mp3" type="audio/mpeg">
-    </audio>
+  <!-- مشغل الموسيقى الجديد -->
+  <div class="music-box" id="musicBox">
+    <img id="currentSongImage" src="song1.jpg" alt="Current Song">
   </div>
+
+  <div class="song-list" id="songList">
+    <div class="song" data-src="song1.mp3" data-img="song1.jpg" data-title="أغنية 1">
+      <img src="song1.jpg" alt="أغنية 1">
+      <span>أغنية 1</span>
+    </div>
+    <div class="song" data-src="song2.mp3" data-img="song2.jpg" data-title="أغنية 2">
+      <img src="song2.jpg" alt="أغنية 2">
+      <span>أغنية 2</span>
+    </div>
+    <div class="song" data-src="song3.mp3" data-img="song3.jpg" data-title="أغنية 3">
+      <img src="song3.jpg" alt="أغنية 3">
+      <span>أغنية 3</span>
+    </div>
+  </div>
+
+  <div class="controls" id="controls" style="display: none;">
+    <button id="playPauseBtn">▶️</button>
+    <span id="nowPlaying">لا شيء</span>
+  </div>
+
+  <audio id="audioPlayer" loop></audio>
 
   <script>
     let visitorCount = 160;
@@ -51,18 +64,45 @@
     localStorage.setItem('visitorCount', visitorCount);
     document.getElementById('visitor-count').innerText = `${visitorCount}`;
 
-    // تشغيل/إيقاف الموسيقى بزر واحد
-    const playPauseBtn = document.getElementById('play-pause');
-    const audio = document.getElementById('myAudio');
+    const musicBox = document.getElementById('musicBox');
+    const songList = document.getElementById('songList');
+    const controls = document.getElementById('controls');
+    const audioPlayer = document.getElementById('audioPlayer');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const nowPlaying = document.getElementById('nowPlaying');
+    const currentSongImage = document.getElementById('currentSongImage');
+
+    let isPlaying = false;
+
+    musicBox.addEventListener('click', () => {
+      songList.classList.toggle('show');
+    });
+
+    document.querySelectorAll('.song').forEach(song => {
+      song.addEventListener('click', () => {
+        const src = song.getAttribute('data-src');
+        const img = song.getAttribute('data-img');
+        const title = song.getAttribute('data-title');
+
+        audioPlayer.src = src;
+        currentSongImage.src = img;
+        nowPlaying.textContent = title;
+        controls.style.display = 'flex';
+        audioPlayer.play();
+        isPlaying = true;
+        playPauseBtn.textContent = '⏸️';
+      });
+    });
 
     playPauseBtn.addEventListener('click', () => {
-      if (audio.paused) {
-        audio.play();
-        playPauseBtn.textContent = "pause";
+      if (isPlaying) {
+        audioPlayer.pause();
+        playPauseBtn.textContent = '▶️';
       } else {
-        audio.pause();
-        playPauseBtn.textContent = "music";
+        audioPlayer.play();
+        playPauseBtn.textContent = '⏸️';
       }
+      isPlaying = !isPlaying;
     });
   </script>
 </body>
