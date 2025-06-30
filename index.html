@@ -30,80 +30,20 @@
   </div>
 
   <!-- مشغل الموسيقى الجديد -->
-  <div class="music-box" id="musicBox">
-    <img id="currentSongImage" src="song1.jpg" alt="Current Song">
+<div class="music-box" id="musicBox">
+  <img id="currentSongImage" src="cover1.jpg" alt="Current Song">
+</div>
+
+<div class="song-list" id="songList">
+  <div class="song" data-src="اغنية-دمتي-امي-ريمكس-128Kbps-44KHz.m4a" data-img="cover1.jpg" data-title="دمتي يا أمي">
+    <img src="cover1.jpg" alt="أغنية 1">
+    <span>دمتي يا أمي</span>
   </div>
+</div>
 
-  <div class="song-list" id="songList">
-    <div class="song" data-src="اغنية-دمتي-امي-ريمكس-128Kbps-44KHz.m4a" data-img="date-img1.jpg" data-title=" دمتي يا امي">
-      <img src="song1.jpg" alt="أغنية 1">
-      <span>أغنية 1</span>
-    </div>
-    <div class="song" data-src="song2.mp3" data-img="song2.jpg" data-title="أغنية 2">
-      <img src="song2.jpg" alt="أغنية 2">
-      <span>أغنية 2</span>
-    </div>
-    <div class="song" data-src="song3.mp3" data-img="song3.jpg" data-title="أغنية 3">
-      <img src="song3.jpg" alt="أغنية 3">
-      <span>أغنية 3</span>
-    </div>
-  </div>
+<div class="controls" id="controls" style="display: none;">
+  <button id="playPauseBtn">▶️</button>
+  <span id="nowPlaying">لا شيء</span>
+</div>
 
-  <div class="controls" id="controls" style="display: none;">
-    <button id="playPauseBtn">▶️</button>
-    <span id="nowPlaying">لا شيء</span>
-  </div>
-
-  <audio id="audioPlayer" loop></audio>
-
-  <script>
-    let visitorCount = 160;
-    if (localStorage.getItem('visitorCount')) {
-      visitorCount = parseInt(localStorage.getItem('visitorCount')) + 1;
-    }
-    localStorage.setItem('visitorCount', visitorCount);
-    document.getElementById('visitor-count').innerText = `${visitorCount}`;
-
-    const musicBox = document.getElementById('musicBox');
-    const songList = document.getElementById('songList');
-    const controls = document.getElementById('controls');
-    const audioPlayer = document.getElementById('audioPlayer');
-    const playPauseBtn = document.getElementById('playPauseBtn');
-    const nowPlaying = document.getElementById('nowPlaying');
-    const currentSongImage = document.getElementById('currentSongImage');
-
-    let isPlaying = false;
-
-    musicBox.addEventListener('click', () => {
-      songList.classList.toggle('show');
-    });
-
-    document.querySelectorAll('.song').forEach(song => {
-      song.addEventListener('click', () => {
-        const src = song.getAttribute('data-src');
-        const img = song.getAttribute('data-img');
-        const title = song.getAttribute('data-title');
-
-        audioPlayer.src = src;
-        currentSongImage.src = img;
-        nowPlaying.textContent = title;
-        controls.style.display = 'flex';
-        audioPlayer.play();
-        isPlaying = true;
-        playPauseBtn.textContent = '⏸️';
-      });
-    });
-
-    playPauseBtn.addEventListener('click', () => {
-      if (isPlaying) {
-        audioPlayer.pause();
-        playPauseBtn.textContent = '▶️';
-      } else {
-        audioPlayer.play();
-        playPauseBtn.textContent = '⏸️';
-      }
-      isPlaying = !isPlaying;
-    });
-  </script>
-</body>
-</html>
+<audio id="audioPlayer" loop></audio>
