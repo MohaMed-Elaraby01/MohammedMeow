@@ -32,7 +32,7 @@
 
   <div class="song-list" id="songList">
     <!-- أغنية 1 -->
-    <div class="song" data-src="اغنية-دمتي-امي-ريمكس-128Kbps-44KHz.m4a" data-img="cover1.jpg" data-title="دمتي يا أمي">
+    <div class="song" data-src="اغنية-دمتي-امي-ريمكس-128Kbps-44KHz.m4a" data-img="cover1.jpg">
       <div class="song-info">
         <img src="cover1.jpg" alt="cover" />
         <span>دمتي يا أمي</span>
@@ -48,7 +48,7 @@
     </div>
 
     <!-- أغنية 2 -->
-    <div class="song" data-src="شمس-سطعت-والجو-جميل-ريمكس-مع-الكلمات-128Kbps-44KHz.m4a" data-img="cover2.jpg" data-title="الشمس سطعت والجو جميل">
+    <div class="song" data-src="شمس-سطعت-والجو-جميل-ريمكس-مع-الكلمات-128Kbps-44KHz.m4a" data-img="cover2.jpg">
       <div class="song-info">
         <img src="cover2.jpg" alt="cover" />
         <span>الشمس سطعت والجو جميل</span>
@@ -67,95 +67,95 @@
   <audio id="audioPlayer"></audio>
 
   <script>
-  let visitorCount = 160;
-  if (localStorage.getItem("visitorCount")) {
-    visitorCount = parseInt(localStorage.getItem("visitorCount")) + 1;
-  }
-  localStorage.setItem("visitorCount", visitorCount);
-  document.getElementById("visitor-count").innerText = `${visitorCount}`;
+    let visitorCount = 160;
+    if (localStorage.getItem("visitorCount")) {
+      visitorCount = parseInt(localStorage.getItem("visitorCount")) + 1;
+    }
+    localStorage.setItem("visitorCount", visitorCount);
+    document.getElementById("visitor-count").innerText = `${visitorCount}`;
 
-  const musicBox = document.getElementById("musicBox");
-  const songList = document.getElementById("songList");
-  const audioPlayer = document.getElementById("audioPlayer");
-  const currentSongImage = document.getElementById("currentSongImage");
+    const musicBox = document.getElementById("musicBox");
+    const songList = document.getElementById("songList");
+    const audioPlayer = document.getElementById("audioPlayer");
+    const currentSongImage = document.getElementById("currentSongImage");
 
-  musicBox.addEventListener("click", () => {
-    songList.classList.toggle("show");
-  });
-
-  let currentSong = null;
-  let currentPlayBtn = null;
-  let currentProgress = null;
-  let currentTimeDisplay = null;
-
-  document.querySelectorAll(".song").forEach((song) => {
-    const playBtn = song.querySelector(".song-play-btn");
-    const restartBtn = song.querySelector(".song-restart-btn");
-    const progressFill = song.querySelector(".progress-fill");
-    const timeDisplay = song.querySelector(".song-time");
-
-    const src = song.getAttribute("data-src");
-    const img = song.getAttribute("data-img");
-
-    // تشغيل أو إيقاف الأغنية
-    playBtn.addEventListener("click", () => {
-      // إذا الأغنية نفسها
-      if (audioPlayer.src.includes(src)) {
-        if (audioPlayer.paused) {
-          audioPlayer.play();
-          playBtn.textContent = "☐";
-        } else {
-          audioPlayer.pause();
-          playBtn.textContent = "▶";
-        }
-        return;
-      }
-
-      // أغنية جديدة → أوقف السابقة
-      if (currentSong && currentPlayBtn && currentProgress && currentTimeDisplay) {
-        currentPlayBtn.textContent = "▶";
-        currentProgress.style.width = "0%";
-        currentTimeDisplay.textContent = "0:00 / 0:00";
-      }
-
-      // إعداد الأغنية الحالية
-      currentSong = song;
-      currentPlayBtn = playBtn;
-      currentProgress = progressFill;
-      currentTimeDisplay = timeDisplay;
-
-      audioPlayer.src = src;
-      currentSongImage.src = img;
-      audioPlayer.play();
-      playBtn.textContent = "☐";
-
-      audioPlayer.ontimeupdate = () => {
-        if (!audioPlayer.duration) return;
-        const percent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
-        progressFill.style.width = `${percent}%`;
-
-        const currentMin = Math.floor(audioPlayer.currentTime / 60);
-        const currentSec = Math.floor(audioPlayer.currentTime % 60).toString().padStart(2, "0");
-
-        const totalMin = Math.floor(audioPlayer.duration / 60);
-        const totalSec = Math.floor(audioPlayer.duration % 60).toString().padStart(2, "0");
-
-        timeDisplay.textContent = `${currentMin}:${currentSec} / ${totalMin}:${totalSec}`;
-      };
+    musicBox.addEventListener("click", () => {
+      songList.classList.toggle("show");
     });
 
-    // زر إعادة التشغيل
-    restartBtn.addEventListener("click", () => {
-      if (audioPlayer.src.includes(src)) {
-        audioPlayer.currentTime = 0;
+    let currentSong = null;
+    let currentPlayBtn = null;
+    let currentProgress = null;
+    let currentTimeDisplay = null;
+
+    document.querySelectorAll(".song").forEach((song) => {
+      const playBtn = song.querySelector(".song-play-btn");
+      const restartBtn = song.querySelector(".song-restart-btn");
+      const progressFill = song.querySelector(".progress-fill");
+      const timeDisplay = song.querySelector(".song-time");
+
+      const src = song.getAttribute("data-src");
+      const img = song.getAttribute("data-img");
+
+      // زر تشغيل وإيقاف
+      playBtn.addEventListener("click", () => {
+        // إذا الأغنية نفسها
+        if (audioPlayer.src.includes(src)) {
+          if (audioPlayer.paused) {
+            audioPlayer.play();
+            playBtn.textContent = "☐";
+          } else {
+            audioPlayer.pause();
+            playBtn.textContent = "▶";
+          }
+          return;
+        }
+
+        // إيقاف الأغنية السابقة
+        if (currentSong && currentPlayBtn) {
+          currentPlayBtn.textContent = "▶";
+        }
+
+        // تعيين الأغنية الجديدة
+        currentSong = song;
+        currentPlayBtn = playBtn;
+        currentProgress = progressFill;
+        currentTimeDisplay = timeDisplay;
+
+        audioPlayer.src = src;
+        currentSongImage.src = img;
         audioPlayer.play();
         playBtn.textContent = "☐";
-      }
-    });
-  });
 
-  // عندما تنتهي الأغنية ترجع زر التشغيل
-  audioPlayer.addEventListener("ended", () => {
-    if (currentPlayBtn) currentPlayBtn.textContent = "▶";
-  });
+        audioPlayer.ontimeupdate = () => {
+          if (!audioPlayer.duration) return;
+          const percent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+          currentProgress.style.width = `${percent}%`;
+
+          const currentMin = Math.floor(audioPlayer.currentTime / 60);
+          const currentSec = Math.floor(audioPlayer.currentTime % 60).toString().padStart(2, "0");
+
+          const totalMin = Math.floor(audioPlayer.duration / 60);
+          const totalSec = Math.floor(audioPlayer.duration % 60).toString().padStart(2, "0");
+
+          currentTimeDisplay.textContent = `${currentMin}:${currentSec} / ${totalMin}:${totalSec}`;
+        };
+      });
+
+      // زر إعادة التشغيل
+      restartBtn.addEventListener("click", () => {
+        if (audioPlayer.src.includes(src)) {
+          audioPlayer.currentTime = 0;
+          audioPlayer.play();
+          playBtn.textContent = "☐";
+        }
+      });
+    });
+
+    // عند انتهاء الأغنية، رجوع الزر إلى ▶
+    audioPlayer.addEventListener("ended", () => {
+      if (currentPlayBtn) currentPlayBtn.textContent = "▶";
+    });
   </script>
+</body>
+</html>
