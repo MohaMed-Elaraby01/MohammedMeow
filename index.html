@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>o.o</title>
-  <link rel="icon" type="image/png" href="favicon.png">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,10 +14,10 @@
       <h2>Little King</h2>
       <p class="username">@Mahmmoud</p>
       <div class="social-links">
-        <a href="https://www.youtube.com/@Mohammed_Sayed3" target="_blank"><img src="youtube.png" alt="YouTube"></a>
-        <a href="https://www.instagram.com/vx1.mohammed?igsh=cGZ0ZDBqcjZhNnds" target="_blank"><img src="instagram.png" alt="Instagram"></a>
-        <a href="https://discord.gg/TQVjWZYUa7" target="_blank"><img src="discord.png" alt="Discord"></a>
-        <a href="https://t.me/IMohaMed_UP" target="_blank"><img src="telegram.png" alt="Telegram"></a>
+        <a href="#"><img src="youtube.png" alt="YouTube"></a>
+        <a href="#"><img src="instagram.png" alt="Instagram"></a>
+        <a href="#"><img src="discord.png" alt="Discord"></a>
+        <a href="#"><img src="telegram.png" alt="Telegram"></a>
       </div>
     </div>
 
@@ -28,7 +27,7 @@
     </div>
   </div>
 
-  <!-- مربع الموسيقى -->
+  <!-- زر عرض الموسيقى -->
   <div class="music-box" id="musicBox">
     <img id="currentSongImage" src="cover1.jpg" alt="Current Song">
   </div>
@@ -36,16 +35,21 @@
   <!-- قائمة الأغاني -->
   <div class="song-list" id="songList">
     <div class="song" data-src="اغنية-دمتي-امي-ريمكس-128Kbps-44KHz.m4a" data-img="cover1.jpg" data-title="دمتي يا أمي">
-      <img src="cover1.jpg" alt="دمتي يا أمي">
-      <span>دمتي يا أمي</span>
-      <button class="song-play-btn">▶️</button>
+      <div class="song-info">
+        <img src="cover1.jpg" alt="cover">
+        <span>دمتي يا أمي</span>
+      </div>
+      <div class="song-controls">
+        <button class="song-play-btn">▶</button>
+        <button class="song-restart-btn">🔁</button>
+      </div>
       <div class="progress-bar"><div class="progress-fill"></div></div>
     </div>
   </div>
 
-  <!-- زر التشغيل الرئيسي -->
+  <!-- زر التشغيل العام -->
   <div class="controls" id="controls" style="display: none;">
-    <button id="playPauseBtn">▶️</button>
+    <button id="playPauseBtn">▶</button>
     <span id="nowPlaying">لا شيء</span>
   </div>
 
@@ -75,37 +79,41 @@
 
     document.querySelectorAll('.song').forEach(song => {
       const playBtn = song.querySelector('.song-play-btn');
+      const restartBtn = song.querySelector('.song-restart-btn');
       const progressFill = song.querySelector('.progress-fill');
+      const src = song.getAttribute('data-src');
+      const img = song.getAttribute('data-img');
+      const title = song.getAttribute('data-title');
 
       playBtn.addEventListener('click', () => {
-        const src = song.getAttribute('data-src');
-        const img = song.getAttribute('data-img');
-        const title = song.getAttribute('data-title');
-
         audioPlayer.src = src;
         currentSongImage.src = img;
         nowPlaying.textContent = title;
         controls.style.display = 'flex';
         audioPlayer.play();
         isPlaying = true;
-        playPauseBtn.textContent = '⏸️';
+        playPauseBtn.textContent = '☐';
         songList.classList.remove('show');
 
-        // تحديث شريط التقدم
         audioPlayer.ontimeupdate = () => {
           const percent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
           progressFill.style.width = `${percent}%`;
         };
+      });
+
+      restartBtn.addEventListener('click', () => {
+        audioPlayer.currentTime = 0;
+        audioPlayer.play();
       });
     });
 
     playPauseBtn.addEventListener('click', () => {
       if (isPlaying) {
         audioPlayer.pause();
-        playPauseBtn.textContent = '▶️';
+        playPauseBtn.textContent = '▶';
       } else {
         audioPlayer.play();
-        playPauseBtn.textContent = '⏸️';
+        playPauseBtn.textContent = '☐';
       }
       isPlaying = !isPlaying;
     });
