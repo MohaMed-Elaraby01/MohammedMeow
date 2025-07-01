@@ -38,8 +38,11 @@
         <span>دمتي يا أمي</span>
       </div>
       <div class="song-controls">
-        <button class="song-play-btn">▶</button>
-        <button class="song-restart-btn">🔁</button>
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <button class="song-play-btn">▶</button>
+          <span class="song-time">0:00</span>
+          <button class="song-restart-btn">🔁</button>
+        </div>
       </div>
       <div class="progress-bar"><div class="progress-fill"></div></div>
     </div>
@@ -48,24 +51,27 @@
     <div class="song" data-src="شمس-سطعت-والجو-جميل-ريمكس-مع-الكلمات-128Kbps-44KHz.m4a" data-img="cover2.jpg" data-title="الشمس سطعت والجو جميل هذا اليوم">
       <div class="song-info">
         <img src="cover2.jpg" alt="cover" />
-        <span>أغنية جديدة</span>
+        <span>الشمس سطعت والجو جميل</span>
       </div>
       <div class="song-controls">
-        <button class="song-play-btn">▶</button>
-        <button class="song-restart-btn">🔁</button>
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <button class="song-play-btn">▶</button>
+          <span class="song-time">0:00</span>
+          <button class="song-restart-btn">🔁</button>
+        </div>
       </div>
       <div class="progress-bar"><div class="progress-fill"></div></div>
     </div>
   </div>
 
-  <audio id="audioPlayer" loop></audio>
+  <audio id="audioPlayer"></audio>
 
   <script>
     let visitorCount = 160;
-    if (localStorage.getItem('visitorCount')) {
-      visitorCount = parseInt(localStorage.getItem('visitorCount')) + 1;
+    if (localStorage.getItem("visitorCount")) {
+      visitorCount = parseInt(localStorage.getItem("visitorCount")) + 1;
     }
-    localStorage.setItem('visitorCount', visitorCount);
+    localStorage.setItem("visitorCount", visitorCount);
     document.getElementById("visitor-count").innerText = `${visitorCount}`;
 
     const musicBox = document.getElementById("musicBox");
@@ -73,7 +79,7 @@
     const audioPlayer = document.getElementById("audioPlayer");
     const currentSongImage = document.getElementById("currentSongImage");
 
-    let currentPlayingSrc = "";
+    let currentSong = null;
 
     musicBox.addEventListener("click", () => {
       songList.classList.toggle("show");
@@ -83,22 +89,47 @@
       const playBtn = song.querySelector(".song-play-btn");
       const restartBtn = song.querySelector(".song-restart-btn");
       const progressFill = song.querySelector(".progress-fill");
+      const timeDisplay = song.querySelector(".song-time");
 
       const src = song.getAttribute("data-src");
       const img = song.getAttribute("data-img");
-      const title = song.getAttribute("data-title");
 
       playBtn.addEventListener("click", () => {
-        if (audioPlayer.src.includes(src) && !audioPlayer.paused) return;
+        // إذا كانت نفس الأغنية تعمل
+        if (audioPlayer.src.includes(src)) {
+          if (audioPlayer.paused) {
+            audioPlayer.play();
+            playBtn.textContent = "☐";
+          } else {
+            audioPlayer.pause();
+            playBtn.textContent = "▶";
+          }
+          return;
+        }
 
+        // إيقاف الأغنية السابقة إن وُجدت
+        if (currentSong) {
+          const prevPlayBtn = currentSong.querySelector(".song-play-btn");
+          const prevProgress = currentSong.querySelector(".progress-fill");
+          const prevTime = currentSong.querySelector(".song-time");
+          prevPlayBtn.textContent = "▶";
+          prevProgress.style.width = "0%";
+          prevTime.textContent = "0:00";
+        }
+
+        currentSong = song;
         audioPlayer.src = src;
         currentSongImage.src = img;
         audioPlayer.play();
-        currentPlayingSrc = src;
+        playBtn.textContent = "☐";
 
         audioPlayer.ontimeupdate = () => {
           const percent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
           progressFill.style.width = `${percent}%`;
+
+          const minutes = Math.floor(audioPlayer.currentTime / 60);
+          const seconds = Math.floor(audioPlayer.currentTime % 60).toString().padStart(2, "0");
+          timeDisplay.textContent = `${minutes}:${seconds}`;
         };
       });
 
