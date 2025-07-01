@@ -38,10 +38,12 @@
     <div class="song" data-src="اغنية-دمتي-امي-ريمكس-128Kbps-44KHz.m4a" data-img="cover1.jpg" data-title="دمتي يا أمي">
       <img src="cover1.jpg" alt="دمتي يا أمي">
       <span>دمتي يا أمي</span>
+      <button class="song-play-btn">▶️</button>
+      <div class="progress-bar"><div class="progress-fill"></div></div>
     </div>
   </div>
 
-  <!-- زر التشغيل -->
+  <!-- زر التشغيل الرئيسي -->
   <div class="controls" id="controls" style="display: none;">
     <button id="playPauseBtn">▶️</button>
     <span id="nowPlaying">لا شيء</span>
@@ -72,7 +74,10 @@
     });
 
     document.querySelectorAll('.song').forEach(song => {
-      song.addEventListener('click', () => {
+      const playBtn = song.querySelector('.song-play-btn');
+      const progressFill = song.querySelector('.progress-fill');
+
+      playBtn.addEventListener('click', () => {
         const src = song.getAttribute('data-src');
         const img = song.getAttribute('data-img');
         const title = song.getAttribute('data-title');
@@ -84,7 +89,13 @@
         audioPlayer.play();
         isPlaying = true;
         playPauseBtn.textContent = '⏸️';
-        songList.classList.remove('show'); // إخفاء القائمة بعد الاختيار
+        songList.classList.remove('show');
+
+        // تحديث شريط التقدم
+        audioPlayer.ontimeupdate = () => {
+          const percent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+          progressFill.style.width = `${percent}%`;
+        };
       });
     });
 
