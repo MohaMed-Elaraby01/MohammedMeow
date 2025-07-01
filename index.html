@@ -79,11 +79,14 @@
   const audioPlayer = document.getElementById("audioPlayer");
   const currentSongImage = document.getElementById("currentSongImage");
 
-  let currentSong = null;
-
   musicBox.addEventListener("click", () => {
     songList.classList.toggle("show");
   });
+
+  let currentSong = null;
+  let currentPlayBtn = null;
+  let currentProgress = null;
+  let currentTimeDisplay = null;
 
   document.querySelectorAll(".song").forEach((song) => {
     const playBtn = song.querySelector(".song-play-btn");
@@ -94,44 +97,40 @@
     const src = song.getAttribute("data-src");
     const img = song.getAttribute("data-img");
 
-    let isPlaying = false;
-
+    // تشغيل أو إيقاف الأغنية
     playBtn.addEventListener("click", () => {
       // إذا الأغنية نفسها
       if (audioPlayer.src.includes(src)) {
         if (audioPlayer.paused) {
           audioPlayer.play();
           playBtn.textContent = "☐";
-          isPlaying = true;
         } else {
           audioPlayer.pause();
           playBtn.textContent = "▶";
-          isPlaying = false;
         }
         return;
       }
 
       // أغنية جديدة → أوقف السابقة
-      if (currentSong) {
-        const prevBtn = currentSong.querySelector(".song-play-btn");
-        const prevTime = currentSong.querySelector(".song-time");
-        const prevProgress = currentSong.querySelector(".progress-fill");
-        prevBtn.textContent = "▶";
-        prevProgress.style.width = "0%";
-        prevTime.textContent = "0:00 / 0:00";
+      if (currentSong && currentPlayBtn && currentProgress && currentTimeDisplay) {
+        currentPlayBtn.textContent = "▶";
+        currentProgress.style.width = "0%";
+        currentTimeDisplay.textContent = "0:00 / 0:00";
       }
 
-      // تشغيل الأغنية الجديدة
+      // إعداد الأغنية الحالية
       currentSong = song;
+      currentPlayBtn = playBtn;
+      currentProgress = progressFill;
+      currentTimeDisplay = timeDisplay;
+
       audioPlayer.src = src;
       currentSongImage.src = img;
       audioPlayer.play();
       playBtn.textContent = "☐";
-      isPlaying = true;
 
       audioPlayer.ontimeupdate = () => {
         if (!audioPlayer.duration) return;
-
         const percent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
         progressFill.style.width = `${percent}%`;
 
@@ -151,8 +150,12 @@
         audioPlayer.currentTime = 0;
         audioPlayer.play();
         playBtn.textContent = "☐";
-        isPlaying = true;
       }
     });
+  });
+
+  // عندما تنتهي الأغنية ترجع زر التشغيل
+  audioPlayer.addEventListener("ended", () => {
+    if (currentPlayBtn) currentPlayBtn.textContent = "▶";
   });
   </script>
