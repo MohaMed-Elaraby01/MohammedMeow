@@ -38,9 +38,9 @@
         <span>دمتي يا أمي</span>
       </div>
       <div class="song-controls">
-        <div style="display: flex; gap: 10px; align-items: center;">
-          <button class="song-play-btn">▶</button>
-          <span class="song-time">0:00</span>
+        <button class="song-play-btn">▶</button>
+        <div class="song-right">
+          <span class="song-time">0:00 / 0:00</span>
           <button class="song-restart-btn">🔁</button>
         </div>
       </div>
@@ -48,15 +48,15 @@
     </div>
 
     <!-- أغنية 2 -->
-    <div class="song" data-src="شمس-سطعت-والجو-جميل-ريمكس-مع-الكلمات-128Kbps-44KHz.m4a" data-img="cover2.jpg" data-title="الشمس سطعت والجو جميل هذا اليوم">
+    <div class="song" data-src="شمس-سطعت-والجو-جميل-ريمكس-مع-الكلمات-128Kbps-44KHz.m4a" data-img="cover2.jpg" data-title="الشمس سطعت والجو جميل">
       <div class="song-info">
         <img src="cover2.jpg" alt="cover" />
         <span>الشمس سطعت والجو جميل</span>
       </div>
       <div class="song-controls">
-        <div style="display: flex; gap: 10px; align-items: center;">
-          <button class="song-play-btn">▶</button>
-          <span class="song-time">0:00</span>
+        <button class="song-play-btn">▶</button>
+        <div class="song-right">
+          <span class="song-time">0:00 / 0:00</span>
           <button class="song-restart-btn">🔁</button>
         </div>
       </div>
@@ -95,7 +95,7 @@
       const img = song.getAttribute("data-img");
 
       playBtn.addEventListener("click", () => {
-        // إذا كانت نفس الأغنية تعمل
+        // إذا نفس الأغنية
         if (audioPlayer.src.includes(src)) {
           if (audioPlayer.paused) {
             audioPlayer.play();
@@ -107,14 +107,15 @@
           return;
         }
 
-        // إيقاف الأغنية السابقة إن وُجدت
+        // إيقاف الأغنية السابقة
         if (currentSong) {
           const prevPlayBtn = currentSong.querySelector(".song-play-btn");
           const prevProgress = currentSong.querySelector(".progress-fill");
           const prevTime = currentSong.querySelector(".song-time");
+
           prevPlayBtn.textContent = "▶";
           prevProgress.style.width = "0%";
-          prevTime.textContent = "0:00";
+          prevTime.textContent = "0:00 / 0:00";
         }
 
         currentSong = song;
@@ -124,12 +125,17 @@
         playBtn.textContent = "☐";
 
         audioPlayer.ontimeupdate = () => {
+          if (!audioPlayer.duration) return;
           const percent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
           progressFill.style.width = `${percent}%`;
 
-          const minutes = Math.floor(audioPlayer.currentTime / 60);
-          const seconds = Math.floor(audioPlayer.currentTime % 60).toString().padStart(2, "0");
-          timeDisplay.textContent = `${minutes}:${seconds}`;
+          const currentMin = Math.floor(audioPlayer.currentTime / 60);
+          const currentSec = Math.floor(audioPlayer.currentTime % 60).toString().padStart(2, "0");
+
+          const totalMin = Math.floor(audioPlayer.duration / 60);
+          const totalSec = Math.floor(audioPlayer.duration % 60).toString().padStart(2, "0");
+
+          timeDisplay.textContent = `${currentMin}:${currentSec} / ${totalMin}:${totalSec}`;
         };
       });
 
