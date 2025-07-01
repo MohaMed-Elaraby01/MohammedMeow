@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>o.o</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
@@ -20,23 +20,21 @@
         <a href="#"><img src="telegram.png" alt="Telegram"></a>
       </div>
     </div>
-
     <div class="visitor-count">
-      <img src="eye-icon.png" alt="علامة عين" class="eye-icon">
+      <img src="eye-icon.png" alt="علامة عين" class="eye-icon" />
       <span id="visitor-count">1</span>
     </div>
   </div>
 
-  <!-- زر عرض الموسيقى -->
   <div class="music-box" id="musicBox">
-    <img id="currentSongImage" src="cover1.jpg" alt="Current Song">
+    <img id="currentSongImage" src="cover1.jpg" alt="Current Song" />
   </div>
 
-  <!-- قائمة الأغاني -->
   <div class="song-list" id="songList">
+    <!-- أغنية 1 -->
     <div class="song" data-src="اغنية-دمتي-امي-ريمكس-128Kbps-44KHz.m4a" data-img="cover1.jpg" data-title="دمتي يا أمي">
       <div class="song-info">
-        <img src="cover1.jpg" alt="cover">
+        <img src="cover1.jpg" alt="cover" />
         <span>دمتي يا أمي</span>
       </div>
       <div class="song-controls">
@@ -45,12 +43,19 @@
       </div>
       <div class="progress-bar"><div class="progress-fill"></div></div>
     </div>
-  </div>
 
-  <!-- زر التشغيل العام -->
-  <div class="controls" id="controls" style="display: none;">
-    <button id="playPauseBtn">▶</button>
-    <span id="nowPlaying">لا شيء</span>
+    <!-- أغنية 2 -->
+    <div class="song" data-src="اغنية-جديدة.m4a" data-img="cover2.jpg" data-title="أغنية جديدة">
+      <div class="song-info">
+        <img src="cover2.jpg" alt="cover" />
+        <span>أغنية جديدة</span>
+      </div>
+      <div class="song-controls">
+        <button class="song-play-btn">▶</button>
+        <button class="song-restart-btn">🔁</button>
+      </div>
+      <div class="progress-bar"><div class="progress-fill"></div></div>
+    </div>
   </div>
 
   <audio id="audioPlayer" loop></audio>
@@ -61,39 +66,35 @@
       visitorCount = parseInt(localStorage.getItem('visitorCount')) + 1;
     }
     localStorage.setItem('visitorCount', visitorCount);
-    document.getElementById('visitor-count').innerText = `${visitorCount}`;
+    document.getElementById("visitor-count").innerText = `${visitorCount}`;
 
-    const musicBox = document.getElementById('musicBox');
-    const songList = document.getElementById('songList');
-    const controls = document.getElementById('controls');
-    const audioPlayer = document.getElementById('audioPlayer');
-    const playPauseBtn = document.getElementById('playPauseBtn');
-    const nowPlaying = document.getElementById('nowPlaying');
-    const currentSongImage = document.getElementById('currentSongImage');
+    const musicBox = document.getElementById("musicBox");
+    const songList = document.getElementById("songList");
+    const audioPlayer = document.getElementById("audioPlayer");
+    const currentSongImage = document.getElementById("currentSongImage");
 
-    let isPlaying = false;
+    let currentPlayingSrc = "";
 
-    musicBox.addEventListener('click', () => {
-      songList.classList.toggle('show');
+    musicBox.addEventListener("click", () => {
+      songList.classList.toggle("show");
     });
 
-    document.querySelectorAll('.song').forEach(song => {
-      const playBtn = song.querySelector('.song-play-btn');
-      const restartBtn = song.querySelector('.song-restart-btn');
-      const progressFill = song.querySelector('.progress-fill');
-      const src = song.getAttribute('data-src');
-      const img = song.getAttribute('data-img');
-      const title = song.getAttribute('data-title');
+    document.querySelectorAll(".song").forEach((song) => {
+      const playBtn = song.querySelector(".song-play-btn");
+      const restartBtn = song.querySelector(".song-restart-btn");
+      const progressFill = song.querySelector(".progress-fill");
 
-      playBtn.addEventListener('click', () => {
+      const src = song.getAttribute("data-src");
+      const img = song.getAttribute("data-img");
+      const title = song.getAttribute("data-title");
+
+      playBtn.addEventListener("click", () => {
+        if (audioPlayer.src.includes(src) && !audioPlayer.paused) return;
+
         audioPlayer.src = src;
         currentSongImage.src = img;
-        nowPlaying.textContent = title;
-        controls.style.display = 'flex';
         audioPlayer.play();
-        isPlaying = true;
-        playPauseBtn.textContent = '☐';
-        songList.classList.remove('show');
+        currentPlayingSrc = src;
 
         audioPlayer.ontimeupdate = () => {
           const percent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
@@ -101,21 +102,12 @@
         };
       });
 
-      restartBtn.addEventListener('click', () => {
-        audioPlayer.currentTime = 0;
-        audioPlayer.play();
+      restartBtn.addEventListener("click", () => {
+        if (audioPlayer.src.includes(src)) {
+          audioPlayer.currentTime = 0;
+          audioPlayer.play();
+        }
       });
-    });
-
-    playPauseBtn.addEventListener('click', () => {
-      if (isPlaying) {
-        audioPlayer.pause();
-        playPauseBtn.textContent = '▶';
-      } else {
-        audioPlayer.play();
-        playPauseBtn.textContent = '☐';
-      }
-      isPlaying = !isPlaying;
     });
   </script>
 </body>
