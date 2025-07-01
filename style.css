@@ -170,10 +170,15 @@ h2 {
   cursor: pointer;
 }
 
+.song-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .song-time {
   color: #888;
   font-size: 12px;
-  margin: 0 4px;
 }
 
 .progress-bar {
