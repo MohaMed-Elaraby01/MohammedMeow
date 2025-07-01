@@ -67,85 +67,92 @@
   <audio id="audioPlayer"></audio>
 
   <script>
-    let visitorCount = 160;
-    if (localStorage.getItem("visitorCount")) {
-      visitorCount = parseInt(localStorage.getItem("visitorCount")) + 1;
-    }
-    localStorage.setItem("visitorCount", visitorCount);
-    document.getElementById("visitor-count").innerText = `${visitorCount}`;
+  let visitorCount = 160;
+  if (localStorage.getItem("visitorCount")) {
+    visitorCount = parseInt(localStorage.getItem("visitorCount")) + 1;
+  }
+  localStorage.setItem("visitorCount", visitorCount);
+  document.getElementById("visitor-count").innerText = `${visitorCount}`;
 
-    const musicBox = document.getElementById("musicBox");
-    const songList = document.getElementById("songList");
-    const audioPlayer = document.getElementById("audioPlayer");
-    const currentSongImage = document.getElementById("currentSongImage");
+  const musicBox = document.getElementById("musicBox");
+  const songList = document.getElementById("songList");
+  const audioPlayer = document.getElementById("audioPlayer");
+  const currentSongImage = document.getElementById("currentSongImage");
 
-    let currentSong = null;
+  let currentSong = null;
 
-    musicBox.addEventListener("click", () => {
-      songList.classList.toggle("show");
+  musicBox.addEventListener("click", () => {
+    songList.classList.toggle("show");
+  });
+
+  document.querySelectorAll(".song").forEach((song) => {
+    const playBtn = song.querySelector(".song-play-btn");
+    const restartBtn = song.querySelector(".song-restart-btn");
+    const progressFill = song.querySelector(".progress-fill");
+    const timeDisplay = song.querySelector(".song-time");
+
+    const src = song.getAttribute("data-src");
+    const img = song.getAttribute("data-img");
+
+    let isPlaying = false;
+
+    playBtn.addEventListener("click", () => {
+      // إذا الأغنية نفسها
+      if (audioPlayer.src.includes(src)) {
+        if (audioPlayer.paused) {
+          audioPlayer.play();
+          playBtn.textContent = "☐";
+          isPlaying = true;
+        } else {
+          audioPlayer.pause();
+          playBtn.textContent = "▶";
+          isPlaying = false;
+        }
+        return;
+      }
+
+      // أغنية جديدة → أوقف السابقة
+      if (currentSong) {
+        const prevBtn = currentSong.querySelector(".song-play-btn");
+        const prevTime = currentSong.querySelector(".song-time");
+        const prevProgress = currentSong.querySelector(".progress-fill");
+        prevBtn.textContent = "▶";
+        prevProgress.style.width = "0%";
+        prevTime.textContent = "0:00 / 0:00";
+      }
+
+      // تشغيل الأغنية الجديدة
+      currentSong = song;
+      audioPlayer.src = src;
+      currentSongImage.src = img;
+      audioPlayer.play();
+      playBtn.textContent = "☐";
+      isPlaying = true;
+
+      audioPlayer.ontimeupdate = () => {
+        if (!audioPlayer.duration) return;
+
+        const percent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+        progressFill.style.width = `${percent}%`;
+
+        const currentMin = Math.floor(audioPlayer.currentTime / 60);
+        const currentSec = Math.floor(audioPlayer.currentTime % 60).toString().padStart(2, "0");
+
+        const totalMin = Math.floor(audioPlayer.duration / 60);
+        const totalSec = Math.floor(audioPlayer.duration % 60).toString().padStart(2, "0");
+
+        timeDisplay.textContent = `${currentMin}:${currentSec} / ${totalMin}:${totalSec}`;
+      };
     });
 
-    document.querySelectorAll(".song").forEach((song) => {
-      const playBtn = song.querySelector(".song-play-btn");
-      const restartBtn = song.querySelector(".song-restart-btn");
-      const progressFill = song.querySelector(".progress-fill");
-      const timeDisplay = song.querySelector(".song-time");
-
-      const src = song.getAttribute("data-src");
-      const img = song.getAttribute("data-img");
-
-      playBtn.addEventListener("click", () => {
-        // إذا نفس الأغنية
-        if (audioPlayer.src.includes(src)) {
-          if (audioPlayer.paused) {
-            audioPlayer.play();
-            playBtn.textContent = "☐";
-          } else {
-            audioPlayer.pause();
-            playBtn.textContent = "▶";
-          }
-          return;
-        }
-
-        // إيقاف الأغنية السابقة
-        if (currentSong) {
-          const prevPlayBtn = currentSong.querySelector(".song-play-btn");
-          const prevProgress = currentSong.querySelector(".progress-fill");
-          const prevTime = currentSong.querySelector(".song-time");
-
-          prevPlayBtn.textContent = "▶";
-          prevProgress.style.width = "0%";
-          prevTime.textContent = "0:00 / 0:00";
-        }
-
-        currentSong = song;
-        audioPlayer.src = src;
-        currentSongImage.src = img;
+    // زر إعادة التشغيل
+    restartBtn.addEventListener("click", () => {
+      if (audioPlayer.src.includes(src)) {
+        audioPlayer.currentTime = 0;
         audioPlayer.play();
         playBtn.textContent = "☐";
-
-        audioPlayer.ontimeupdate = () => {
-          if (!audioPlayer.duration) return;
-          const percent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
-          progressFill.style.width = `${percent}%`;
-
-          const currentMin = Math.floor(audioPlayer.currentTime / 60);
-          const currentSec = Math.floor(audioPlayer.currentTime % 60).toString().padStart(2, "0");
-
-          const totalMin = Math.floor(audioPlayer.duration / 60);
-          const totalSec = Math.floor(audioPlayer.duration % 60).toString().padStart(2, "0");
-
-          timeDisplay.textContent = `${currentMin}:${currentSec} / ${totalMin}:${totalSec}`;
-        };
-      });
-
-      restartBtn.addEventListener("click", () => {
-        if (audioPlayer.src.includes(src)) {
-          audioPlayer.currentTime = 0;
-          audioPlayer.play();
-        }
-      });
+        isPlaying = true;
+      }
     });
+  });
   </script>
-</body>
-</html>
