@@ -138,10 +138,6 @@
       border-bottom: 1px solid #333;
     }
 
-    .song:last-child {
-      border-bottom: none;
-    }
-
     .song-info {
       display: flex;
       align-items: center;
@@ -223,32 +219,17 @@
     </div>
   </div>
 
+  <!-- زر الموسيقى -->
   <div class="music-box" id="musicBox">
     <img id="currentSongImage" src="cover1.jpg" alt="Current Song" />
   </div>
 
+  <!-- قائمة الأغاني (أغنية واحدة فقط) -->
   <div class="song-list" id="songList">
-    <!-- أغنية 1 -->
     <div class="song" data-src="اغنية-دمتي-امي-ريمكس-128Kbps-44KHz.m4a" data-img="cover1.jpg">
       <div class="song-info">
         <img src="cover1.jpg" alt="cover" />
         <span>دمتي يا أمي</span>
-      </div>
-      <div class="song-controls">
-        <button class="song-play-btn">▶</button>
-        <div class="song-right">
-          <span class="song-time">0:00 / 0:00</span>
-          <button class="song-restart-btn">🔁</button>
-        </div>
-      </div>
-      <div class="progress-bar"><div class="progress-fill"></div></div>
-    </div>
-
-    <!-- أغنية 2 -->
-    <div class="song" data-src="شمس-سطعت-والجو-جميل-ريمكس-مع-الكلمات-128Kbps-44KHz.m4a" data-img="cover2.jpg">
-      <div class="song-info">
-        <img src="cover2.jpg" alt="cover" />
-        <span>الشمس سطعت والجو جميل</span>
       </div>
       <div class="song-controls">
         <button class="song-play-btn">▶</button>
@@ -306,9 +287,7 @@
           return;
         }
 
-        if (currentSong && currentPlayBtn) {
-          currentPlayBtn.textContent = "▶";
-        }
+        if (currentPlayBtn) currentPlayBtn.textContent = "▶";
 
         currentSong = song;
         currentPlayBtn = playBtn;
@@ -327,10 +306,8 @@
 
           const currentMin = Math.floor(audioPlayer.currentTime / 60);
           const currentSec = Math.floor(audioPlayer.currentTime % 60).toString().padStart(2, "0");
-
           const totalMin = Math.floor(audioPlayer.duration / 60);
           const totalSec = Math.floor(audioPlayer.duration % 60).toString().padStart(2, "0");
-
           currentTimeDisplay.textContent = `${currentMin}:${currentSec} / ${totalMin}:${totalSec}`;
         };
       });
