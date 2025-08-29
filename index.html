@@ -3,7 +3,11 @@
 <head>  
   <meta charset="UTF-8" />  
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>  
-  <title>3< ≽^• ˕ • ྀི≼</title>  
+  <title>>3 ≽^• ˕ • ྀི≼</title>  
+
+  <!-- الأيقونة اللي تظهر في المتصفح -->
+  <link rel="icon" type="image/png" href="icon.png">
+
   <style>  
     body {  
       margin: 0;  
@@ -58,9 +62,9 @@
     /* الديكور (الأذان) */
     .profile-decoration {
       position: absolute;
-      top: -10px;   /* تطلع شوي فوق الدائرة */
+      top: -10px;   
       left: 50%;
-      width: 120%;  /* أكبر من الدائرة عشان الأذان يبينوا */
+      width: 120%;  
       transform: translateX(-50%);
       pointer-events: none;
     }
@@ -226,7 +230,6 @@
   <div class="container">  
     <div class="background-image"></div>  
     <div class="profile-section">  
-      <!-- صورة البروفايل مع الأذان -->
       <div class="profile-picture-wrapper">
         <img src="profile.jpg" alt="صورة الملف الشخصي" class="profile-picture">  
         <img src="cat-ears.gif" alt="Cat Ears Decoration" class="profile-decoration">
@@ -287,7 +290,6 @@
   </div>  
 
   <audio id="audioPlayer"></audio>
-
   <script>
   let visitorCount = 160;
   if (localStorage.getItem("visitorCount")) {
@@ -295,85 +297,6 @@
   }
   localStorage.setItem("visitorCount", visitorCount);
   document.getElementById("visitor-count").innerText = `${visitorCount}`;
-
-  const musicBox = document.getElementById("musicBox");
-  const songList = document.getElementById("songList");
-  const audioPlayer = document.getElementById("audioPlayer");
-  const currentSongImage = document.getElementById("currentSongImage");
-
-  musicBox.addEventListener("click", () => {
-    songList.classList.toggle("show");
-  });
-
-  let currentSong = null;
-  let currentPlayBtn = null;
-  let currentProgress = null;
-  let currentTimeDisplay = null;
-
-  document.querySelectorAll(".song").forEach((song) => {
-    const playBtn = song.querySelector(".song-play-btn");
-    const restartBtn = song.querySelector(".song-restart-btn");
-    const progressFill = song.querySelector(".progress-fill");
-    const timeDisplay = song.querySelector(".song-time");
-
-    const src = song.getAttribute("data-src");
-    const img = song.getAttribute("data-img");
-
-    playBtn.addEventListener("click", () => {
-      const isSameSong = audioPlayer.src.includes(src);
-
-      if (isSameSong) {
-        if (audioPlayer.paused) {
-          audioPlayer.play();
-          playBtn.textContent = "☐";
-        } else {
-          audioPlayer.pause();
-          playBtn.textContent = "▶";
-        }
-        return;
-      }
-
-      if (currentPlayBtn) {
-        currentPlayBtn.textContent = "▶";
-      }
-
-      currentSong = song;
-      currentPlayBtn = playBtn;
-      currentProgress = progressFill;
-      currentTimeDisplay = timeDisplay;
-
-      audioPlayer.src = src;
-      currentSongImage.src = img;
-      audioPlayer.play();
-      playBtn.textContent = "☐";
-
-      audioPlayer.ontimeupdate = () => {
-        if (!audioPlayer.duration) return;
-        const percent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
-        currentProgress.style.width = `${percent}%`;
-
-        const currentMin = Math.floor(audioPlayer.currentTime / 60);
-        const currentSec = Math.floor(audioPlayer.currentTime % 60).toString().padStart(2, "0");
-
-        const totalMin = Math.floor(audioPlayer.duration / 60);
-        const totalSec = Math.floor(audioPlayer.duration % 60).toString().padStart(2, "0");
-
-        currentTimeDisplay.textContent = `${currentMin}:${currentSec} / ${totalMin}:${totalSec}`;
-      };
-    });
-
-    restartBtn.addEventListener("click", () => {
-      if (audioPlayer.src.includes(src)) {
-        audioPlayer.currentTime = 0;
-        audioPlayer.play();
-        playBtn.textContent = "☐";
-      }
-    });
-  });
-
-  audioPlayer.addEventListener("ended", () => {
-    if (currentPlayBtn) currentPlayBtn.textContent = "▶";
-  });
-  </script>  
+  </script>
 </body>
 </html>
