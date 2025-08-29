@@ -1,4 +1,5 @@
-<!DOCTYPE html>  <html lang="ar">  
+<!DOCTYPE html>  
+<html lang="ar">  
 <head>  
   <meta charset="UTF-8" />  
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>  
@@ -15,189 +16,209 @@
       min-height: 100vh;  
       flex-direction: column;  
       position: relative;  
-    }  .container {  
-  width: 100%;  
-  max-width: 400px;  
-  border-radius: 10px;  
-  overflow: hidden;  
-}  
+    }  
 
-.background-image {  
-  background-image: url('background.jpg');  
-  background-size: cover;  
-  background-position: center;  
-  height: 200px;  
-}  
+    .container {  
+      width: 100%;  
+      max-width: 400px;  
+      border-radius: 10px;  
+      overflow: hidden;  
+    }  
 
-.profile-section {  
-  padding: 20px;  
-  text-align: center;  
-}  
+    .background-image {  
+      background-image: url('background.jpg');  
+      background-size: cover;  
+      background-position: center;  
+      height: 200px;  
+    }  
 
-.profile-picture {  
-  width: 100px;  
-  height: 100px;  
-  border-radius: 50%;  
-  object-fit: cover;  
-  margin-top: -50px;  
-  border: 4px solid #000;  
-  background-color: #000;  
-}  
+    .profile-section {  
+      padding: 20px;  
+      text-align: center;  
+    }  
 
-h2 {  
-  margin: 10px 0 5px;  
-  font-size: 1.5em;  
-}  
+    /* حاوية صورة البروفايل + الأذان */
+    .profile-picture-wrapper {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      margin: 0 auto;
+      margin-top: -50px;
+    }
 
-.username {  
-  color: #aaa;  
-  margin-bottom: 15px;  
-}  
+    .profile-picture {  
+      width: 100%;  
+      height: 100%;  
+      border-radius: 50%;  
+      object-fit: cover;  
+      border: 4px solid #000;  
+      background-color: #000;  
+    }  
 
-.social-links {  
-  display: flex;  
-  justify-content: center;  
-}  
+    /* الديكور (الأذان) */
+    .profile-decoration {
+      position: absolute;
+      top: -10px;   /* تطلع شوي فوق الدائرة */
+      left: 50%;
+      width: 120%;  /* أكبر من الدائرة عشان الأذان يبينوا */
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
 
-.social-links a {  
-  margin: 0 10px;  
-}  
+    h2 {  
+      margin: 10px 0 5px;  
+      font-size: 1.5em;  
+    }  
 
-.social-links img {  
-  width: 30px;  
-  height: 30px;  
-}  
+    .username {  
+      color: #aaa;  
+      margin-bottom: 15px;  
+    }  
 
-.visitor-count {  
-  position: absolute;  
-  left: 10px;  
-  bottom: 10px;  
-  display: flex;  
-  align-items: center;  
-}  
+    .social-links {  
+      display: flex;  
+      justify-content: center;  
+    }  
 
-.eye-icon {  
-  width: 20px;  
-  height: 20px;  
-  margin-right: 5px;  
-}  
+    .social-links a {  
+      margin: 0 10px;  
+    }  
 
-/* مربع الموسيقى */  
-.music-box {  
-  position: absolute;  
-  top: 10px;  
-  left: 10px;  
-  width: 70px;  
-  height: 70px;  
-  border: 3px solid white;  
-  border-radius: 12px;  
-  overflow: hidden;  
-  cursor: pointer;  
-  z-index: 100;  
-  background-color: #111;  
-}  
+    .social-links img {  
+      width: 30px;  
+      height: 30px;  
+    }  
 
-.music-box img {  
-  width: 100%;  
-  height: 100%;  
-  object-fit: cover;  
-}  
+    .visitor-count {  
+      position: absolute;  
+      left: 10px;  
+      bottom: 10px;  
+      display: flex;  
+      align-items: center;  
+    }  
 
-/* قائمة الأغاني */  
-.song-list {  
-  position: absolute;  
-  top: 90px;  
-  left: 10px;  
-  background-color: #111;  
-  border-radius: 10px;  
-  display: none;  
-  flex-direction: column;  
-  width: 250px;  
-  z-index: 99;  
-  padding: 5px;  
-  border: 3px solid;  
-  animation: rgb-border 3s linear infinite;  
-}  
+    .eye-icon {  
+      width: 20px;  
+      height: 20px;  
+      margin-right: 5px;  
+    }  
 
-@keyframes rgb-border {  
-  0% { border-color: red; }  
-  33% { border-color: lime; }  
-  66% { border-color: blue; }  
-  100% { border-color: red; }  
-}  
+    /* مربع الموسيقى */  
+    .music-box {  
+      position: absolute;  
+      top: 10px;  
+      left: 10px;  
+      width: 70px;  
+      height: 70px;  
+      border: 3px solid white;  
+      border-radius: 12px;  
+      overflow: hidden;  
+      cursor: pointer;  
+      z-index: 100;  
+      background-color: #111;  
+    }  
 
-.song-list.show {  
-  display: flex;  
-}  
+    .music-box img {  
+      width: 100%;  
+      height: 100%;  
+      object-fit: cover;  
+    }  
 
-.song {  
-  padding: 10px;  
-  border-bottom: 1px solid #333;  
-}  
+    /* قائمة الأغاني */  
+    .song-list {  
+      position: absolute;  
+      top: 90px;  
+      left: 10px;  
+      background-color: #111;  
+      border-radius: 10px;  
+      display: none;  
+      flex-direction: column;  
+      width: 250px;  
+      z-index: 99;  
+      padding: 5px;  
+      border: 3px solid;  
+      animation: rgb-border 3s linear infinite;  
+    }  
 
-.song:last-child {  
-  border-bottom: none;  
-}  
+    @keyframes rgb-border {  
+      0% { border-color: red; }  
+      33% { border-color: lime; }  
+      66% { border-color: blue; }  
+      100% { border-color: red; }  
+    }  
 
-.song-info {  
-  display: flex;  
-  align-items: center;  
-  gap: 10px;  
-  margin-bottom: 5px;  
-}  
+    .song-list.show {  
+      display: flex;  
+    }  
 
-.song-info img {  
-  width: 45px;  
-  height: 45px;  
-  border-radius: 8px;  
-  object-fit: cover;  
-}  
+    .song {  
+      padding: 10px;  
+      border-bottom: 1px solid #333;  
+    }  
 
-.song-info span {  
-  font-size: 15px;  
-  color: #fff;  
-}  
+    .song:last-child {  
+      border-bottom: none;  
+    }  
 
-.song-controls {  
-  display: flex;  
-  justify-content: space-between;  
-  align-items: center;  
-  margin-bottom: 5px;  
-}  
+    .song-info {  
+      display: flex;  
+      align-items: center;  
+      gap: 10px;  
+      margin-bottom: 5px;  
+    }  
 
-.song-play-btn,  
-.song-restart-btn {  
-  background: none;  
-  border: none;  
-  color: white;  
-  font-size: 16px;  
-  cursor: pointer;  
-}  
+    .song-info img {  
+      width: 45px;  
+      height: 45px;  
+      border-radius: 8px;  
+      object-fit: cover;  
+    }  
 
-.song-right {  
-  display: flex;  
-  align-items: center;  
-  gap: 8px;  
-}  
+    .song-info span {  
+      font-size: 15px;  
+      color: #fff;  
+    }  
 
-.song-time {  
-  color: #888;  
-  font-size: 12px;  
-}  
+    .song-controls {  
+      display: flex;  
+      justify-content: space-between;  
+      align-items: center;  
+      margin-bottom: 5px;  
+    }  
 
-.progress-bar {  
-  width: 100%;  
-  height: 5px;  
-  background-color: #222;  
-  border-radius: 3px;  
-  overflow: hidden;  
-}  
+    .song-play-btn,  
+    .song-restart-btn {  
+      background: none;  
+      border: none;  
+      color: white;  
+      font-size: 16px;  
+      cursor: pointer;  
+    }  
 
-.progress-fill {  
-  height: 100%;  
-  width: 0%;  
-  background-color: #6481E3;  
-}
+    .song-right {  
+      display: flex;  
+      align-items: center;  
+      gap: 8px;  
+    }  
+
+    .song-time {  
+      color: #888;  
+      font-size: 12px;  
+    }  
+
+    .progress-bar {  
+      width: 100%;  
+      height: 5px;  
+      background-color: #222;  
+      border-radius: 3px;  
+      overflow: hidden;  
+    }  
+
+    .progress-fill {  
+      height: 100%;  
+      width: 0%;  
+      background-color: #6481E3;  
+    }  
 
   </style>  
 </head>  
@@ -205,7 +226,11 @@ h2 {
   <div class="container">  
     <div class="background-image"></div>  
     <div class="profile-section">  
-      <img src="profile.jpg" alt="صورة الملف الشخصي" class="profile-picture">  
+      <!-- صورة البروفايل مع الأذان -->
+      <div class="profile-picture-wrapper">
+        <img src="profile.jpg" alt="صورة الملف الشخصي" class="profile-picture">  
+        <img src="cat-ears.gif" alt="Cat Ears Decoration" class="profile-decoration">
+      </div>
       <h2>Little King</h2>  
       <p class="username">@Mahmmoud</p>  
       <div class="social-links">  
@@ -219,9 +244,15 @@ h2 {
       <img src="eye-icon.png" alt="علامة عين" class="eye-icon" />  
       <span id="visitor-count">1</span>  
     </div>  
-  </div>    <div class="music-box" id="musicBox">  
+  </div>  
+
+  <!-- مربع الموسيقى -->  
+  <div class="music-box" id="musicBox">  
     <img id="currentSongImage" src="cover1.jpg" alt="Current Song" />  
-  </div>    <div class="song-list" id="songList">  
+  </div>  
+
+  <!-- قائمة الأغاني -->  
+  <div class="song-list" id="songList">  
     <!-- أغنية 1 -->  
     <div class="song" data-src="اغنية-دمتي-امي-ريمكس-128Kbps-44KHz.m4a" data-img="cover1.jpg">  
       <div class="song-info">  
@@ -236,23 +267,26 @@ h2 {
         </div>  
       </div>  
       <div class="progress-bar"><div class="progress-fill"></div></div>  
-    </div>  <!-- أغنية 2 -->  
-<div class="song" data-src="شمس-سطعت-والجو-جميل-ريمكس-مع-الكلمات-128Kbps-44KHz.m4a" data-img="cover2.jpg">  
-  <div class="song-info">  
-    <img src="cover2.jpg" alt="cover" />  
-    شمسٌ سطعت</span>  
-  </div>  
-  <div class="song-controls">  
-    <button class="song-play-btn">▶</button>  
-    <div class="song-right">  
-      <span class="song-time">0:00 / 0:00</span>  
-      <button class="song-restart-btn">🔁</button>  
+    </div>  
+
+    <!-- أغنية 2 -->  
+    <div class="song" data-src="شمس-سطعت-والجو-جميل-ريمكس-مع-الكلمات-128Kbps-44KHz.m4a" data-img="cover2.jpg">  
+      <div class="song-info">  
+        <img src="cover2.jpg" alt="cover" />  
+        <span>شمسٌ سطعت</span>  
+      </div>  
+      <div class="song-controls">  
+        <button class="song-play-btn">▶</button>  
+        <div class="song-right">  
+          <span class="song-time">0:00 / 0:00</span>  
+          <button class="song-restart-btn">🔁</button>  
+        </div>  
+      </div>  
+      <div class="progress-bar"><div class="progress-fill"></div></div>  
     </div>  
   </div>  
-  <div class="progress-bar"><div class="progress-fill"></div></div>  
-</div>
 
-  </div>  <audio id="audioPlayer"></audio>
+  <audio id="audioPlayer"></audio>
 
   <script>
   let visitorCount = 160;
@@ -299,7 +333,6 @@ h2 {
         return;
       }
 
-      // إيقاف أي أغنية أخرى
       if (currentPlayBtn) {
         currentPlayBtn.textContent = "▶";
       }
@@ -341,4 +374,6 @@ h2 {
   audioPlayer.addEventListener("ended", () => {
     if (currentPlayBtn) currentPlayBtn.textContent = "▶";
   });
-  </script>
+  </script>  
+</body>
+</html>
