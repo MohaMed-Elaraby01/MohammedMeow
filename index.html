@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>  
   <title>3> ≽^• ˕ • ྀི≼</title>  
 
-  <!-- الأيقونة اللي تظهر في المتصفح -->
   <link rel="icon" type="image/png" href="icon.png">
 
   <style>  
@@ -41,7 +40,6 @@
       text-align: center;  
     }  
 
-    /* حاوية صورة البروفايل + الأذان */
     .profile-picture-wrapper {
       position: relative;
       width: 100px;
@@ -59,7 +57,6 @@
       background-color: #000;  
     }  
 
-    /* الديكور (الأذان) */
     .profile-decoration {
       position: absolute;
       top: -10px;   
@@ -107,7 +104,6 @@
       margin-right: 5px;  
     }  
 
-    /* مربع الموسيقى */  
     .music-box {  
       position: absolute;  
       top: 10px;  
@@ -128,7 +124,6 @@
       object-fit: cover;  
     }  
 
-    /* قائمة الأغاني */  
     .song-list {  
       position: absolute;  
       top: 90px;  
@@ -249,14 +244,11 @@
     </div>  
   </div>  
 
-  <!-- مربع الموسيقى -->  
   <div class="music-box" id="musicBox">  
     <img id="currentSongImage" src="cover1.jpg" alt="Current Song" />  
   </div>  
 
-  <!-- قائمة الأغاني -->  
   <div class="song-list" id="songList">  
-    <!-- أغنية 1 -->  
     <div class="song" data-src="اغنية-دمتي-امي-ريمكس-128Kbps-44KHz.m4a" data-img="cover1.jpg">  
       <div class="song-info">  
         <img src="cover1.jpg" alt="cover" />  
@@ -272,7 +264,6 @@
       <div class="progress-bar"><div class="progress-fill"></div></div>  
     </div>  
 
-    <!-- أغنية 2 -->  
     <div class="song" data-src="شمس-سطعت-والجو-جميل-ريمكس-مع-الكلمات-128Kbps-44KHz.m4a" data-img="cover2.jpg">  
       <div class="song-info">  
         <img src="cover2.jpg" alt="cover" />  
@@ -290,13 +281,89 @@
   </div>  
 
   <audio id="audioPlayer"></audio>
+
   <script>
+  // العداد
   let visitorCount = 160;
   if (localStorage.getItem("visitorCount")) {
     visitorCount = parseInt(localStorage.getItem("visitorCount")) + 1;
   }
   localStorage.setItem("visitorCount", visitorCount);
   document.getElementById("visitor-count").innerText = `${visitorCount}`;
+
+  const musicBox = document.getElementById("musicBox");
+  const songList = document.getElementById("songList");
+  const audioPlayer = document.getElementById("audioPlayer");
+  const currentSongImage = document.getElementById("currentSongImage");
+
+  // إظهار وإخفاء القائمة
+  musicBox.addEventListener("click", () => {
+    songList.classList.toggle("show");
+  });
+
+  let currentSong = null;
+
+  function formatTime(sec) {
+    if (isNaN(sec)) return "0:00";
+    let m = Math.floor(sec / 60);
+    let s = Math.floor(sec % 60);
+    return `${m}:${s < 10 ? "0"+s : s}`;
+  }
+
+  document.querySelectorAll(".song").forEach(song => {
+    const playBtn = song.querySelector(".song-play-btn");
+    const restartBtn = song.querySelector(".song-restart-btn");
+    const timeLabel = song.querySelector(".song-time");
+    const progressFill = song.querySelector(".progress-fill");
+    const src = song.getAttribute("data-src");
+    const img = song.getAttribute("data-img");
+
+    playBtn.addEventListener("click", () => {
+      if (currentSong !== song) {
+        // تشغيل أغنية جديدة
+        audioPlayer.src = src;
+        audioPlayer.play();
+        currentSongImage.src = img;
+        if (currentSong) {
+          currentSong.querySelector(".song-play-btn").textContent = "▶";
+        }
+        playBtn.textContent = "⏸";
+        currentSong = song;
+      } else {
+        // تشغيل/إيقاف
+        if (audioPlayer.paused) {
+          audioPlayer.play();
+          playBtn.textContent = "⏸";
+        } else {
+          audioPlayer.pause();
+          playBtn.textContent = "▶";
+        }
+      }
+    });
+
+    restartBtn.addEventListener("click", () => {
+      audioPlayer.currentTime = 0;
+      if (currentSong === song) {
+        audioPlayer.play();
+        playBtn.textContent = "⏸";
+      }
+    });
+
+    audioPlayer.addEventListener("timeupdate", () => {
+      if (currentSong === song) {
+        timeLabel.textContent = `${formatTime(audioPlayer.currentTime)} / ${formatTime(audioPlayer.duration)}`;
+        let percent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+        progressFill.style.width = percent + "%";
+      }
+    });
+
+    audioPlayer.addEventListener("ended", () => {
+      if (currentSong === song) {
+        playBtn.textContent = "▶";
+        progressFill.style.width = "0%";
+      }
+    });
+  });
   </script>
 </body>
 </html>
