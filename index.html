@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3> ≽^• ˕ • ྀི≼</title>
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- الزرين في أقصى الزاوية -->
+<div class="corner-buttons">
+  <div class="about-btn" id="aboutBtn">
+    <img src="info.png" alt="Info">
+  </div>
+  <div class="secret-btn" id="secretBtn">
+    <img src="Rody.gif" alt="secret">
+  </div>
+</div>
+
+<!-- مودال المعلومات -->
+<div class="modal-overlay" id="aboutModal">
+  <div class="modal-box about-modal">
+    <button class="close-about">✖</button>
+      <h3>— 🎧 My Info!! </h3>  
+    <p>∘₊✧──────✧₊∘</p>  
+    <p>᎒ Name · Mohammed</p>  
+    <p>᎒ Pronouns · He/Him</p>  
+    <p>᎒ Age · 20</p>  
+    <p>∘₊✧──────✧₊∘</p>  
+    <p>᎒ Likes · Music, Coding, Gaming</p>  
+    <p>᎒ Favourite color · Red</p>  
+    <p>∘₊✧──────✧₊∘</p>  
+    <p>᎒ Bestie · R❤️‍🩹</p>  
+    <p>⋮ Birthplace · Egypt</p>  
+  </div>  
+</div>
+
+<!-- مودال كلمة السر -->
+<div class="modal-overlay" id="passwordModal">
+  <div class="modal-box password-modal">
+    <p>حط إسم عيلتي التانية يحج</p>
+    <input type="text" id="passwordInput" placeholder="اكتب هنا">
+    <div class="password-buttons">
+      <button id="checkPassword">إدخال</button>
+      <button id="closePassword">✖</button>
+    </div>
+  </div>
+</div>
+
+<!-- مودال الفويس -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box voice-modal">
+    <div class="voice-box">
+      <img src="voice_cover.jpg" alt="Voice Image" class="voice-img">
+      <div class="voice-controls">
+        <span id="voice-time">0:00 / 0:00</span>
+        <div class="voice-progress-bar">
+          <div class="voice-progress-fill"></div>
+          <div class="voice-thumb"></div>
+        </div>
+        <div class="voice-buttons">
+          <button id="playPauseVoice">▶️</button>
+          <button id="closeVoice">✖</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- مودال معلومات عني -->
+<div class="modal-overlay" id="aboutModal">
+  <div class="modal-box about-modal">
+    <span class="close-about">✖</span>
+    <h3>معلومات عني</h3>
+    <p><strong>اسمي:</strong> محمد</p>
+    <p><strong>عمري:</strong> 20</p>
+    <p><strong>من فين؟:</strong> مصر 🇪🇬</p>
+    <p class="bestie">My bestie.....R❤️‍🩹</p>
+  </div>
+</div>
+
+<audio id="voicePlayer" src="Rody.mp3"></audio>
+
+<div class="container">
+  <div class="background-image"></div>
+
+  <div class="profile-section">
+    <div class="profile-picture-wrapper">
+      <img src="profile.gif" alt="صورة الملف الشخصي" class="profile-picture">
+      <img src="cata.gif" alt="Decoration" class="profile-decoration">
+    </div>
+    <h2>Medy</h2>
+    <p class="username">@mohammedy44</p>
+
+    <div class="social-links">
+      <a href="https://www.youtube.com/@Mohamed_Sayed3"><img src="youtube.png" alt="YouTube"></a>
+      <a href="https://www.instagram.com/mody.roo?igsh=cGZ0ZDBqcjZhNnds"><img src="instagram.png" alt="Instagram"></a>
+      <a href="https://discord.gg/TQVjWZYUa7"><img src="discord.png" alt="Discord"></a>
+      <a href="https://t.me/IMohaMed_UP"><img src="telegram.png" alt="Telegram"></a>
+    </div>
+  </div>
+
+  <!-- عداد الزوار -->
+  <div class="visitor-count">
+    <span id="visitor-count">1</span>
+    <img src="eye-icon.png" alt="علامة عين" class="eye-icon" />
+    <div class="views-label">Views</div>
+  </div>
+</div>
+
+<!-- Music Box -->
+<div class="music-box" id="musicBox">
+  <img id="currentSongImage" src="cover1.jpg" alt="Current Song" />
+</div>
+
+<!-- Song List -->
+<div class="song-list" id="songList">
+  <div class="song" data-src="يا عالِم.mp3" data-img="cover2.jpg">
+    <div class="song-info">
+      <img src="cover2.jpg" alt="cover" />
+      <span>.يا عالِم</span>
+    </div>
+    <div class="song-controls">
+      <button class="loop-btn">🔁</button>
+      <button class="prev-btn">◀️</button>
+      <button class="play-btn">▶️</button>
+      <button class="next-btn">⏩</button>
+      <span class="song-time">0:00 / 0:00</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill"></div>
+      <div class="progress-thumb"></div>
+    </div>
+  </div>
+
+  <div class="song" data-src="سم الموت.mp3" data-img="cover3.jpg">
+    <div class="song-info">
+      <img src="cover3.jpg" alt="cover" />
+      <span>.سم الموت</span>
+    </div>
+    <div class="song-controls">
+      <button class="loop-btn">🔁</button>
+      <button class="prev-btn">◀️</button>
+      <button class="play-btn">▶️</button>
+      <button class="next-btn">⏩</button>
+      <span class="song-time">0:00 / 0:00</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill"></div>
+      <div class="progress-thumb"></div>
+    </div>
+  </div>
+</div>
+
+<audio id="audioPlayer"></audio>
+
+<script src="script.js"></script>
+</body>
+</html>
