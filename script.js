@@ -47,6 +47,23 @@ const voiceProgressFill = document.querySelector(".voice-progress-fill");
 const voiceThumb = document.querySelector(".voice-thumb");
 const voiceProgressBar = document.querySelector(".voice-progress-bar");
 const voiceTime = document.getElementById("voice-time");
+let voiceUserInteracted = false;
+// ⚡ منع توقف الفويس فجأة
+voicePlayer.addEventListener("pause", () => {
+  if (!voicePlayer.ended && voiceUserInteracted) {
+    setTimeout(() => {
+      voicePlayer.play().catch(()=>{});
+    }, 50);
+  }
+});
+
+// ✅ هنا نحط إغلاق مودال الفويس
+closeVoice.addEventListener("click", () => {
+  voiceUserInteracted = false;
+  voicePlayer.pause();
+  voicePlayer.currentTime = 0;
+  modal.style.display = "none";
+});
 
 // فتح مودال كلمة السر
 secretBtn.addEventListener("click", () => {
@@ -88,8 +105,12 @@ closeVoice.addEventListener("click", () => {
 
 // زر التشغيل / الإيقاف للفويس
 playPauseVoice.addEventListener("click", () => {
+  voiceUserInteracted = true;
+
+  audioPlayer.pause();
+
   if (voicePlayer.paused) {
-    voicePlayer.play();
+    voicePlayer.play().catch(()=>{});
     playPauseVoice.textContent = "⏸️";
   } else {
     voicePlayer.pause();
