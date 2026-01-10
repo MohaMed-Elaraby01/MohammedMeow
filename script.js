@@ -57,13 +57,13 @@ secretBtn.addEventListener("click", () => {
 // التحقق من كلمة السر
 checkPassword.addEventListener("click", () => {
   const answer = passwordInput.value.trim();
-  if (answer === "الخربة" || answer === "الخربه") {
+  if (answer === "راون" || answer === "روان") {
     passwordModal.style.display = "none";
     modal.style.display = "flex"; // مودال الفويس
     voicePlayer.pause();
     playPauseVoice.textContent = "▶️";
   } else {
-    alert("غلط");
+    alert(".غلط");
   }
 });
 
