@@ -1,0 +1,280 @@
+document.addEventListener("DOMContentLoaded", () => {
+
+  // ===== الفقاعة =====
+const statusBubble = document.getElementById("statusBubble");
+
+// الرقم اللي تحدد بيه المسافة من يمين صورة البروفايل
+// كل ما الرقم أصغر، الفقاعة أقرب لليمين
+// كل ما الرقم أكبر، الفقاعة أبعد شوية لليسار
+const bubbleRight = 2; // عدّل الرقم ده بالبيكسل
+
+// ظهور الفقاعة تلقائي
+setTimeout(() => {
+  statusBubble.classList.add("show");
+  setTimeout(() => {
+    statusBubble.classList.remove("show");
+  }, 4000);
+}, 1000);
+
+  // ===== عداد الزوار =====
+  let visitorCount = 250;
+  if (localStorage.getItem("visitorCount")) {
+    visitorCount = parseInt(localStorage.getItem("visitorCount")) + 1;
+  }
+  localStorage.setItem("visitorCount", visitorCount);
+  document.getElementById("visitor-count").innerText = visitorCount;
+
+  // ===== عناصر المودالات =====
+  const passwordModal = document.getElementById("passwordModal");
+  const passwordInput = document.getElementById("passwordInput");
+  const checkPassword = document.getElementById("checkPassword");
+  const closePassword = document.getElementById("closePassword");
+  const secretBtn = document.getElementById("secretBtn");
+
+  const wrongPasswordModal = document.getElementById("wrongPasswordModal");
+  const closeWrongPassword = document.getElementById("closeWrongPassword");
+
+  const newMessageModal = document.getElementById("newMessageModal");
+  const messageInput = document.getElementById("messageInput");
+  const sendMessageBtn = document.getElementById("sendMessageBtn");
+  const messageBtn = document.getElementById("openMessageModal");
+  const closeNewMessage = document.getElementById("closeNewMessage");
+
+  const emptyMessageModal = document.getElementById("emptyMessageModal");
+  const closeEmptyMessage = document.getElementById("closeEmptyMessage");
+
+  const successModal = document.getElementById("successModal");
+  const closeSuccess = successModal.querySelector("button");
+
+  const aboutModal = document.getElementById("aboutModal");
+  const aboutBtn = document.getElementById("aboutBtn");
+  const closeAbout = document.querySelector(".close-about");
+
+  // ===== مودال الفويس =====
+  const modal = document.getElementById("modalOverlay");
+  const voicePlayer = document.getElementById("voicePlayer");
+  const closeVoice = document.getElementById("closeVoice");
+  const playPauseVoice = document.getElementById("playPauseVoice");
+  const voiceProgressFill = document.querySelector(".voice-progress-fill");
+  const voiceThumb = document.querySelector(".voice-thumb");
+  const voiceProgressBar = document.querySelector(".voice-progress-bar");
+  const voiceTime = document.getElementById("voice-time");
+  let voiceUserInteracted = false;
+
+  // ===== صندوق الموسيقى =====
+  const musicBox = document.getElementById("musicBox");
+  const songList = document.getElementById("songList");
+  const audioPlayer = document.getElementById("audioPlayer");
+  const currentSongImage = document.getElementById("currentSongImage");
+  let currentSong = null, loopMode = "all", progressDragging = false, progressData = {};
+
+  // ===== مودال الرسائل =====
+  messageBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    newMessageModal.style.display = "flex";
+    messageInput.value = "";
+    messageInput.focus();
+  });
+  closeNewMessage.addEventListener("click", () => newMessageModal.style.display = "none");
+
+  sendMessageBtn.addEventListener("click", () => {
+    const message = messageInput.value.trim();
+    if (!message) {
+      newMessageModal.style.display = "none";
+      emptyMessageModal.style.display = "flex";
+      return;
+    }
+
+    const formURL = "https://docs.google.com/forms/d/e/1FAIpQLSc_UhUjJ86Ft3KhcHL1EMS2j3Ps75ZujAns287XY66BY7bQ0A/formResponse";
+    const entryID = "214003542";
+    const fullURL = `${formURL}?entry.${entryID}=${encodeURIComponent(message)}`;
+
+    fetch(fullURL, { method: "POST", mode: "no-cors" })
+      .then(() => {
+        newMessageModal.style.display = "none";
+        messageInput.value = "";
+        successModal.style.display = "flex";
+      })
+      .catch(() => alert("حصل خطأ، حاول مرة أخرى"));
+  });
+
+  closeEmptyMessage.addEventListener("click", () => emptyMessageModal.style.display = "none");
+  closeSuccess.addEventListener("click", () => successModal.style.display = "none");
+
+  // ===== مودال كلمة السر =====
+  secretBtn.addEventListener("click", () => {
+    passwordModal.style.display = "flex";
+    passwordInput.value = "";
+    passwordInput.focus();
+  });
+  closePassword.addEventListener("click", () => passwordModal.style.display = "none");
+
+  checkPassword.addEventListener("click", () => {
+    const answer = passwordInput.value.trim();
+    if (answer === "راون" || answer === "روان") {
+      passwordModal.style.display = "none";
+      modal.style.display = "flex";
+      voicePlayer.pause();
+      playPauseVoice.textContent = "▶️";
+    } else {
+      passwordModal.style.display = "none";
+      wrongPasswordModal.style.display = "flex";
+    }
+  });
+
+  closeWrongPassword.addEventListener("click", () => wrongPasswordModal.style.display = "none");
+
+  // ===== مودال المعلومات =====
+  aboutBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    aboutModal.style.display = aboutModal.style.display === "flex" ? "none" : "flex";
+  });
+  closeAbout.addEventListener("click", () => aboutModal.style.display = "none");
+  aboutModal.querySelector(".about-modal").addEventListener("click", (e) => e.stopPropagation());
+
+  // ===== صندوق الموسيقى =====
+  musicBox.addEventListener("click", (e) => {
+    e.stopPropagation();
+    songList.style.display = songList.style.display === "flex" ? "none" : "flex";
+  });
+  songList.addEventListener("click", (e) => e.stopPropagation());
+
+  // ===== غلق المودالات عند الضغط بره =====
+  document.addEventListener("click", () => {
+    aboutModal.style.display = "none";
+    songList.style.display = "none";
+  });
+
+  // ===== مودال الفويس =====
+  voicePlayer.addEventListener("pause", () => {
+    if (!voicePlayer.ended && voiceUserInteracted) setTimeout(() => voicePlayer.play().catch(()=>{}),50);
+  });
+  closeVoice.addEventListener("click", () => {
+    voiceUserInteracted = false;
+    voicePlayer.pause();
+    voicePlayer.currentTime = 0;
+    modal.style.display = "none";
+  });
+  playPauseVoice.addEventListener("click", () => {
+    voiceUserInteracted = true;
+    if (voicePlayer.paused){ voicePlayer.play().catch(()=>{}); playPauseVoice.textContent="⏸️"; }
+    else { voicePlayer.pause(); playPauseVoice.textContent="▶️"; }
+  });
+  voicePlayer.addEventListener("timeupdate", () => {
+    const percent = (voicePlayer.currentTime / voicePlayer.duration) * 100 || 0;
+    voiceProgressFill.style.width = percent + "%";
+    voiceThumb.style.left = percent + "%";
+    voiceTime.textContent = `${formatTime(voicePlayer.currentTime)} / ${formatTime(voicePlayer.duration)}`;
+  });
+
+  let draggingVoice=false;
+  function startDrag(e){ draggingVoice=true; moveDrag(e); }
+  function moveDrag(e){
+    if(!draggingVoice) return;
+    const rect = voiceProgressBar.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    let percent = (clientX - rect.left)/rect.width;
+    percent = Math.max(0, Math.min(1, percent));
+    voiceProgressFill.style.width = percent*100+"%";
+    voiceThumb.style.left = percent*100+"%";
+    voicePlayer.currentTime = percent*voicePlayer.duration;
+  }
+  function stopDrag(){ draggingVoice=false; }
+  voiceProgressBar.addEventListener("mousedown",startDrag);
+  voiceProgressBar.addEventListener("mousemove",moveDrag);
+  document.addEventListener("mouseup",stopDrag);
+  voiceProgressBar.addEventListener("touchstart",startDrag);
+  voiceProgressBar.addEventListener("touchmove",moveDrag);
+  document.addEventListener("touchend",stopDrag);
+
+  function formatTime(sec){
+    if(isNaN(sec)) return "0:00";
+    const m=Math.floor(sec/60);
+    const s=Math.floor(sec%60);
+    return `${m}:${s<10?"0"+s:s}`;
+  }
+  voicePlayer.addEventListener("ended",()=>playPauseVoice.textContent="▶️");
+
+  // ===== Songs setup =====
+  document.querySelectorAll(".song").forEach((song,index,allSongs)=>{
+    const playBtn = song.querySelector(".play-btn");
+    const loopBtn = song.querySelector(".loop-btn");
+    const nextBtn = song.querySelector(".next-btn");
+    const prevBtn = song.querySelector(".prev-btn");
+    const timeLabel = song.querySelector(".song-time");
+    const progressBar = song.querySelector(".progress-bar");
+    const progressFill = song.querySelector(".progress-fill");
+    const progressThumb = song.querySelector(".progress-thumb");
+    const src = song.getAttribute("data-src");
+    const img = song.getAttribute("data-img");
+    if(!progressData[src]) progressData[src]=0;
+
+    function playSong(){
+      if(currentSong!==song){
+        if(currentSong){
+          currentSong.querySelector(".play-btn").textContent="▶️";
+          progressData[currentSong.getAttribute("data-src")]=audioPlayer.currentTime;
+        }
+        currentSong=song;
+        audioPlayer.src=src;
+        currentSongImage.src=img;
+        audioPlayer.currentTime=progressData[src];
+        audioPlayer.play();
+        playBtn.textContent="⏸️";
+      } else {
+        if(audioPlayer.paused){ audioPlayer.play(); playBtn.textContent="⏸️"; }
+        else { audioPlayer.pause(); playBtn.textContent="▶️"; }
+      }
+    }
+
+    playBtn.addEventListener("click", playSong);
+    loopBtn.addEventListener("click", ()=>{
+      loopMode = loopMode==="all"?"single":"all";
+      loopBtn.textContent = loopMode==="all"?"🔁":"🔂";
+    });
+    nextBtn.addEventListener("click", ()=>{
+      const nextIndex = (index+1)%allSongs.length;
+      allSongs[nextIndex].querySelector(".play-btn").click();
+    });
+    prevBtn.addEventListener("click", ()=>{
+      const prevIndex = (index-1+allSongs.length)%allSongs.length;
+      allSongs[prevIndex].querySelector(".play-btn").click();
+    });
+
+    function updateProgress(){
+      const percent = (audioPlayer.currentTime/audioPlayer.duration)*100||0;
+      progressFill.style.width = percent+"%";
+      progressThumb.style.left = percent+"%";
+      timeLabel.textContent = `${formatTime(audioPlayer.currentTime)} / ${formatTime(audioPlayer.duration)}`;
+    }
+
+    audioPlayer.addEventListener("timeupdate", ()=>{
+      if(currentSong===song && !progressDragging) updateProgress();
+    });
+    audioPlayer.addEventListener("ended", ()=>{
+      if(loopMode==="single"){ audioPlayer.currentTime=0; audioPlayer.play(); }
+      else { const nextIndex = (index+1)%allSongs.length; allSongs[nextIndex].querySelector(".play-btn").click(); }
+    });
+
+    function startDragProgress(e){ progressDragging=true; moveDragProgress(e); }
+    function moveDragProgress(e){
+      if(!progressDragging) return;
+      const rect = progressBar.getBoundingClientRect();
+      const clientX = e.touches?e.touches[0].clientX:e.clientX;
+      let percent = (clientX-rect.left)/rect.width;
+      percent = Math.max(0,Math.min(1,percent));
+      progressFill.style.width = percent*100+"%";
+      progressThumb.style.left = percent*100+"%";
+      audioPlayer.currentTime = percent*audioPlayer.duration;
+    }
+    function stopDragProgress(){ progressDragging=false; }
+
+    progressBar.addEventListener("mousedown",startDragProgress);
+    progressBar.addEventListener("mousemove",moveDragProgress);
+    document.addEventListener("mouseup",stopDragProgress);
+    progressBar.addEventListener("touchstart",startDragProgress);
+    progressBar.addEventListener("touchmove",moveDragProgress);
+    document.addEventListener("touchend",stopDragProgress);
+  });
+
+});
