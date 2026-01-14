@@ -12,9 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
   localStorage.setItem("visitorCount", visitorCount);
   document.getElementById("visitor-count").innerText = visitorCount;
 
-  // ==============================
   // ===== زر الهلال (ديني) =====
-  // ==============================
   const religionBtn = document.getElementById("religionBtn");
   const religionModal = document.getElementById("religionModal");
   const closeReligion = document.querySelector(".close-religion");
@@ -34,9 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (religionModal) {
     religionModal.addEventListener("click", e => {
-      if (e.target === religionModal) {
-        religionModal.style.display = "none";
-      }
+      if (e.target === religionModal) religionModal.style.display = "none";
     });
   }
 
@@ -92,7 +88,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const progressThumb = document.querySelector("#qar2atSong .progress-thumb");
   const timeLabel = document.querySelector("#qar2atSong .song-time");
   let loopMode = "all";
-  let progressDragging = false;
+  let dragging = false;
+
+  // === ضبط صندوق الموسيقى ===
+  currentSongImage.src = "cover1.jpg"; // الكفر الخاص بالصندوق
+  audioPlayer.src = "Eshtagtilak.mp3"; // الأغنية الوحيدة
 
   // ===== مودال الرسائل =====
   messageBtn.addEventListener("click", e => {
@@ -101,9 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
     messageInput.value = "";
     messageInput.focus();
   });
-
   closeNewMessage.addEventListener("click", () => newMessageModal.style.display = "none");
-
   sendMessageBtn.addEventListener("click", () => {
     const message = messageInput.value.trim();
     if (!message) {
@@ -111,20 +109,14 @@ document.addEventListener("DOMContentLoaded", () => {
       emptyMessageModal.style.display = "flex";
       return;
     }
-
-    const formURL = "https://docs.google.com/forms/d/e/1FAIpQLSc_UhUjJ86Ft3KhcHL1EMS2j3Ps75ZujAns287XY66BY7bQ0A/formResponse";
-    const entryID = "214003542";
-
-    fetch(`${formURL}?entry.${entryID}=${encodeURIComponent(message)}`, {
-      method: "POST",
-      mode: "no-cors"
-    }).then(() => {
+    const formURL = "https://docs.google.com/forms/d/e/1FAIpQLSc_UhUjJ86Ft3KhcHL1EMS2j3Ps75ZujAns287XY66BY7bQ0A/formResponse";  
+    const entryID = "214003542";  
+    fetch(`${formURL}?entry.${entryID}=${encodeURIComponent(message)}`, { method: "POST", mode: "no-cors" }).then(() => {
       newMessageModal.style.display = "none";
       messageInput.value = "";
       successModal.style.display = "flex";
     });
   });
-
   closeEmptyMessage.addEventListener("click", () => emptyMessageModal.style.display = "none");
   closeSuccess.addEventListener("click", () => successModal.style.display = "none");
 
@@ -134,9 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
     passwordInput.value = "";
     passwordInput.focus();
   });
-
   closePassword.addEventListener("click", () => passwordModal.style.display = "none");
-
   checkPassword.addEventListener("click", () => {
     const ans = passwordInput.value.trim();
     if (ans === "راون" || ans === "روان") {
@@ -149,7 +139,6 @@ document.addEventListener("DOMContentLoaded", () => {
       wrongPasswordModal.style.display = "flex";
     }
   });
-
   closeWrongPassword.addEventListener("click", () => wrongPasswordModal.style.display = "none");
 
   // ===== مودال المعلومات =====
@@ -157,7 +146,6 @@ document.addEventListener("DOMContentLoaded", () => {
     e.stopPropagation();
     aboutModal.style.display = aboutModal.style.display === "flex" ? "none" : "flex";
   });
-
   closeAbout.addEventListener("click", () => aboutModal.style.display = "none");
   aboutModal.querySelector(".about-modal").addEventListener("click", e => e.stopPropagation());
 
@@ -167,12 +155,74 @@ document.addEventListener("DOMContentLoaded", () => {
     songList.style.display = songList.style.display === "flex" ? "none" : "flex";
   });
   songList.addEventListener("click", e => e.stopPropagation());
+  document.addEventListener("click", () => { aboutModal.style.display = "none"; songList.style.display = "none"; });
 
-  // ===== غلق المودالات =====
-  document.addEventListener("click", () => {
-    aboutModal.style.display = "none";
-    songList.style.display = "none";
+  // ===== أزرار الموسيقى =====
+  function formatTime(sec) {
+    const m = Math.floor(sec / 60);
+    const s = Math.floor(sec % 60);
+    return `${m}:${s < 10 ? "0" + s : s}`;
+  }
+
+  playBtn.addEventListener("click", e => {
+    e.stopPropagation();
+    if (audioPlayer.paused) {
+      audioPlayer.play();
+      playBtn.textContent = "⏸️";
+    } else {
+      audioPlayer.pause();
+      playBtn.textContent = "▶️";
+    }
   });
+
+  nextBtn.addEventListener("click", () => {
+    audioPlayer.currentTime = 0;
+    audioPlayer.play();
+    playBtn.textContent = "⏸️";
+  });
+
+  prevBtn.addEventListener("click", () => {
+    audioPlayer.currentTime = 0;
+    audioPlayer.play();
+    playBtn.textContent = "⏸️";
+  });
+
+  loopBtn.addEventListener("click", e => {
+    e.stopPropagation();
+    loopMode = loopMode === "all" ? "single" : "all";
+    loopBtn.textContent = loopMode === "all" ? "🔁" : "🔂";
+  });
+
+  audioPlayer.addEventListener("timeupdate", () => {
+    if (!audioPlayer.duration) return;
+    const percent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+    progressFill.style.width = percent + "%";
+    progressThumb.style.left = percent + "%";
+    timeLabel.textContent = `${formatTime(audioPlayer.currentTime)} / ${formatTime(audioPlayer.duration)}`;
+  });
+
+  audioPlayer.addEventListener("ended", () => {
+    playBtn.textContent = "▶️";
+    if (loopMode === "single") {
+      audioPlayer.currentTime = 0;
+      audioPlayer.play();
+    }
+  });
+
+  // ===== سحب شريط التقدم =====
+  function seek(e) {
+    const rect = progressBar.getBoundingClientRect();
+    const x = e.touches ? e.touches[0].clientX : e.clientX;
+    const percent = Math.min(Math.max((x - rect.left) / rect.width, 0), 1);
+    audioPlayer.currentTime = percent * audioPlayer.duration;
+  }
+
+  progressBar.addEventListener("mousedown", e => { dragging = true; seek(e); });
+  document.addEventListener("mousemove", e => dragging && seek(e));
+  document.addEventListener("mouseup", () => dragging = false);
+  progressBar.addEventListener("touchstart", e => { dragging = true; seek(e); });
+  document.addEventListener("touchmove", e => dragging && seek(e));
+  document.addEventListener("touchend", () => dragging = false);
 
   // ===== مودال الفويس =====
   playPauseVoice.addEventListener("click", () => {
@@ -207,7 +257,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   voicePlayer.addEventListener("ended", () => playPauseVoice.textContent = "▶️");
 
-  // ===== سحب شريط الفويس =====
   function startDrag(e) { draggingVoice = true; moveDrag(e); }
   function moveDrag(e) {
     if (!draggingVoice) return;
@@ -220,34 +269,11 @@ document.addEventListener("DOMContentLoaded", () => {
     voicePlayer.currentTime = percent * voicePlayer.duration;
   }
   function stopDrag() { draggingVoice = false; }
-
   voiceProgressBar.addEventListener("mousedown", startDrag);
   voiceProgressBar.addEventListener("mousemove", moveDrag);
   document.addEventListener("mouseup", stopDrag);
   voiceProgressBar.addEventListener("touchstart", startDrag);
   voiceProgressBar.addEventListener("touchmove", moveDrag);
   document.addEventListener("touchend", stopDrag);
-
-  // ===== Songs =====
-  function formatTime(sec) {
-    const m = Math.floor(sec / 60);
-    const s = Math.floor(sec % 60);
-    return `${m}:${s < 10 ? "0" + s : s}`;
-  }
-
-  playBtn.addEventListener("click", () => {
-    if (audioPlayer.paused) {
-      audioPlayer.play();
-      playBtn.textContent = "⏸️";
-    } else {
-      audioPlayer.pause();
-      playBtn.textContent = "▶️";
-    }
-  });
-
-  loopBtn.addEventListener("click", () => {
-    loopMode = loopMode === "all" ? "single" : "all";
-    loopBtn.textContent = loopMode === "all" ? "🔁" : "🔂";
-  });
 
 });
