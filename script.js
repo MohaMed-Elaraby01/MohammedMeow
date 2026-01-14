@@ -12,6 +12,34 @@ document.addEventListener("DOMContentLoaded", () => {
   localStorage.setItem("visitorCount", visitorCount);
   document.getElementById("visitor-count").innerText = visitorCount;
 
+  // ==============================
+  // ===== زر الهلال (ديني) =====
+  // ==============================
+  const religionBtn = document.getElementById("religionBtn");
+  const religionModal = document.getElementById("religionModal");
+  const closeReligion = document.querySelector(".close-religion");
+
+  if (religionBtn) {
+    religionBtn.addEventListener("click", e => {
+      e.stopPropagation();
+      religionModal.style.display = "flex";
+    });
+  }
+
+  if (closeReligion) {
+    closeReligion.addEventListener("click", () => {
+      religionModal.style.display = "none";
+    });
+  }
+
+  if (religionModal) {
+    religionModal.addEventListener("click", e => {
+      if (e.target === religionModal) {
+        religionModal.style.display = "none";
+      }
+    });
+  }
+
   // ===== مودالات =====
   const passwordModal = document.getElementById("passwordModal");
   const passwordInput = document.getElementById("passwordInput");
@@ -67,118 +95,159 @@ document.addEventListener("DOMContentLoaded", () => {
   let progressDragging = false;
 
   // ===== مودال الرسائل =====
-  messageBtn.addEventListener("click", e => { e.stopPropagation(); newMessageModal.style.display="flex"; messageInput.value=""; messageInput.focus(); });
-  closeNewMessage.addEventListener("click", () => newMessageModal.style.display="none");
+  messageBtn.addEventListener("click", e => {
+    e.stopPropagation();
+    newMessageModal.style.display = "flex";
+    messageInput.value = "";
+    messageInput.focus();
+  });
+
+  closeNewMessage.addEventListener("click", () => newMessageModal.style.display = "none");
+
   sendMessageBtn.addEventListener("click", () => {
     const message = messageInput.value.trim();
-    if(!message){ newMessageModal.style.display="none"; emptyMessageModal.style.display="flex"; return; }
+    if (!message) {
+      newMessageModal.style.display = "none";
+      emptyMessageModal.style.display = "flex";
+      return;
+    }
+
     const formURL = "https://docs.google.com/forms/d/e/1FAIpQLSc_UhUjJ86Ft3KhcHL1EMS2j3Ps75ZujAns287XY66BY7bQ0A/formResponse";
     const entryID = "214003542";
-    fetch(`${formURL}?entry.${entryID}=${encodeURIComponent(message)}`, { method:"POST", mode:"no-cors" })
-      .then(()=>{ newMessageModal.style.display="none"; messageInput.value=""; successModal.style.display="flex"; })
-      .catch(()=>alert("حصل خطأ، حاول مرة أخرى"));
+
+    fetch(`${formURL}?entry.${entryID}=${encodeURIComponent(message)}`, {
+      method: "POST",
+      mode: "no-cors"
+    }).then(() => {
+      newMessageModal.style.display = "none";
+      messageInput.value = "";
+      successModal.style.display = "flex";
+    });
   });
-  closeEmptyMessage.addEventListener("click", ()=>emptyMessageModal.style.display="none");
-  closeSuccess.addEventListener("click", ()=>successModal.style.display="none");
+
+  closeEmptyMessage.addEventListener("click", () => emptyMessageModal.style.display = "none");
+  closeSuccess.addEventListener("click", () => successModal.style.display = "none");
 
   // ===== مودال كلمة السر =====
-  secretBtn.addEventListener("click", ()=>{ passwordModal.style.display="flex"; passwordInput.value=""; passwordInput.focus(); });
-  closePassword.addEventListener("click", ()=>passwordModal.style.display="none");
-  checkPassword.addEventListener("click", ()=>{
-    const ans = passwordInput.value.trim();
-    if(ans==="راون"||ans==="روان"){ passwordModal.style.display="none"; modal.style.display="flex"; voicePlayer.pause(); playPauseVoice.textContent="▶️"; }
-    else{ passwordModal.style.display="none"; wrongPasswordModal.style.display="flex"; }
+  secretBtn.addEventListener("click", () => {
+    passwordModal.style.display = "flex";
+    passwordInput.value = "";
+    passwordInput.focus();
   });
-  closeWrongPassword.addEventListener("click", ()=>wrongPasswordModal.style.display="none");
+
+  closePassword.addEventListener("click", () => passwordModal.style.display = "none");
+
+  checkPassword.addEventListener("click", () => {
+    const ans = passwordInput.value.trim();
+    if (ans === "راون" || ans === "روان") {
+      passwordModal.style.display = "none";
+      modal.style.display = "flex";
+      voicePlayer.pause();
+      playPauseVoice.textContent = "▶️";
+    } else {
+      passwordModal.style.display = "none";
+      wrongPasswordModal.style.display = "flex";
+    }
+  });
+
+  closeWrongPassword.addEventListener("click", () => wrongPasswordModal.style.display = "none");
 
   // ===== مودال المعلومات =====
-  aboutBtn.addEventListener("click", e=>{ e.stopPropagation(); aboutModal.style.display = aboutModal.style.display==="flex"?"none":"flex"; });
-  closeAbout.addEventListener("click", ()=>aboutModal.style.display="none");
-  aboutModal.querySelector(".about-modal").addEventListener("click", e=>e.stopPropagation());
+  aboutBtn.addEventListener("click", e => {
+    e.stopPropagation();
+    aboutModal.style.display = aboutModal.style.display === "flex" ? "none" : "flex";
+  });
+
+  closeAbout.addEventListener("click", () => aboutModal.style.display = "none");
+  aboutModal.querySelector(".about-modal").addEventListener("click", e => e.stopPropagation());
 
   // ===== صندوق الموسيقى =====
-  musicBox.addEventListener("click", e=>{ e.stopPropagation(); songList.style.display = songList.style.display==="flex"?"none":"flex"; });
-  songList.addEventListener("click", e=>e.stopPropagation());
+  musicBox.addEventListener("click", e => {
+    e.stopPropagation();
+    songList.style.display = songList.style.display === "flex" ? "none" : "flex";
+  });
+  songList.addEventListener("click", e => e.stopPropagation());
 
-  // ===== غلق المودالات عند الضغط بره =====
-  document.addEventListener("click", ()=>{
-    aboutModal.style.display="none";
-    songList.style.display="none";
+  // ===== غلق المودالات =====
+  document.addEventListener("click", () => {
+    aboutModal.style.display = "none";
+    songList.style.display = "none";
   });
 
   // ===== مودال الفويس =====
-  playPauseVoice.addEventListener("click", ()=>{
-    voiceUserInteracted=true;
-    if(voicePlayer.paused){ voicePlayer.play().catch(()=>{}); playPauseVoice.textContent="⏸️"; }
-    else { voicePlayer.pause(); playPauseVoice.textContent="▶️"; }
+  playPauseVoice.addEventListener("click", () => {
+    voiceUserInteracted = true;
+    if (voicePlayer.paused) {
+      voicePlayer.play().catch(() => {});
+      playPauseVoice.textContent = "⏸️";
+    } else {
+      voicePlayer.pause();
+      playPauseVoice.textContent = "▶️";
+    }
   });
-  closeVoice.addEventListener("click", ()=>{
-    voiceUserInteracted=false; voicePlayer.pause(); voicePlayer.currentTime=0; modal.style.display="none";
+
+  closeVoice.addEventListener("click", () => {
+    voiceUserInteracted = false;
+    voicePlayer.pause();
+    voicePlayer.currentTime = 0;
+    modal.style.display = "none";
   });
-  voicePlayer.addEventListener("timeupdate", ()=>{
-    const percent = (voicePlayer.currentTime/voicePlayer.duration)*100||0;
-    voiceProgressFill.style.width = percent+"%";
-    voiceThumb.style.left = percent+"%";
+
+  voicePlayer.addEventListener("timeupdate", () => {
+    const percent = (voicePlayer.currentTime / voicePlayer.duration) * 100 || 0;
+    voiceProgressFill.style.width = percent + "%";
+    voiceThumb.style.left = percent + "%";
     voiceTime.textContent = `${formatTime(voicePlayer.currentTime)} / ${formatTime(voicePlayer.duration)}`;
   });
-  voicePlayer.addEventListener("pause", ()=>{ if(!voicePlayer.ended && voiceUserInteracted) setTimeout(()=>voicePlayer.play().catch(()=>{}),50); });
-  voicePlayer.addEventListener("ended", ()=>playPauseVoice.textContent="▶️");
+
+  voicePlayer.addEventListener("pause", () => {
+    if (!voicePlayer.ended && voiceUserInteracted)
+      setTimeout(() => voicePlayer.play().catch(() => {}), 50);
+  });
+
+  voicePlayer.addEventListener("ended", () => playPauseVoice.textContent = "▶️");
 
   // ===== سحب شريط الفويس =====
-  function startDrag(e){ draggingVoice=true; moveDrag(e); }
-  function moveDrag(e){
-    if(!draggingVoice) return;
+  function startDrag(e) { draggingVoice = true; moveDrag(e); }
+  function moveDrag(e) {
+    if (!draggingVoice) return;
     const rect = voiceProgressBar.getBoundingClientRect();
-    const clientX = e.touches?e.touches[0].clientX:e.clientX;
-    let percent = (clientX-rect.left)/rect.width;
-    percent=Math.max(0,Math.min(1,percent));
-    voiceProgressFill.style.width=percent*100+"%";
-    voiceThumb.style.left=percent*100+"%";
-    voicePlayer.currentTime=percent*voicePlayer.duration;
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    let percent = (clientX - rect.left) / rect.width;
+    percent = Math.max(0, Math.min(1, percent));
+    voiceProgressFill.style.width = percent * 100 + "%";
+    voiceThumb.style.left = percent * 100 + "%";
+    voicePlayer.currentTime = percent * voicePlayer.duration;
   }
-  function stopDrag(){ draggingVoice=false; }
-  voiceProgressBar.addEventListener("mousedown",startDrag);
-  voiceProgressBar.addEventListener("mousemove",moveDrag);
-  document.addEventListener("mouseup",stopDrag);
-  voiceProgressBar.addEventListener("touchstart",startDrag);
-  voiceProgressBar.addEventListener("touchmove",moveDrag);
-  document.addEventListener("touchend",stopDrag);
+  function stopDrag() { draggingVoice = false; }
+
+  voiceProgressBar.addEventListener("mousedown", startDrag);
+  voiceProgressBar.addEventListener("mousemove", moveDrag);
+  document.addEventListener("mouseup", stopDrag);
+  voiceProgressBar.addEventListener("touchstart", startDrag);
+  voiceProgressBar.addEventListener("touchmove", moveDrag);
+  document.addEventListener("touchend", stopDrag);
 
   // ===== Songs =====
-  function formatTime(sec){ const m=Math.floor(sec/60); const s=Math.floor(sec%60); return `${m}:${s<10?"0"+s:s}`; }
-
-  playBtn.addEventListener("click", ()=>{ if(audioPlayer.paused){ audioPlayer.play(); playBtn.textContent="⏸️"; } else{ audioPlayer.pause(); playBtn.textContent="▶️"; } });
-  loopBtn.addEventListener("click", ()=>{ loopMode=loopMode==="all"?"single":"all"; loopBtn.textContent=loopMode==="all"?"🔁":"🔂"; });
-  nextBtn.addEventListener("click", ()=>{ audioPlayer.currentTime = audioPlayer.duration-0.1; });
-  prevBtn.addEventListener("click", ()=>{ audioPlayer.currentTime=0; });
-
-  function updateProgress(){
-    const percent = (audioPlayer.currentTime/audioPlayer.duration)*100||0;
-    progressFill.style.width = percent+"%";
-    progressThumb.style.left = percent+"%";
-    timeLabel.textContent = `${formatTime(audioPlayer.currentTime)} / ${formatTime(audioPlayer.duration)}`;
+  function formatTime(sec) {
+    const m = Math.floor(sec / 60);
+    const s = Math.floor(sec % 60);
+    return `${m}:${s < 10 ? "0" + s : s}`;
   }
-  audioPlayer.addEventListener("timeupdate", ()=>{ if(!progressDragging) updateProgress(); });
-  audioPlayer.addEventListener("ended", ()=>{ if(loopMode==="single"){ audioPlayer.currentTime=0; audioPlayer.play(); } else{ playBtn.textContent="▶️"; } });
 
-  function startDragProgress(e){ progressDragging=true; moveDragProgress(e); }
-  function moveDragProgress(e){
-    if(!progressDragging) return;
-    const rect = progressBar.getBoundingClientRect();
-    const clientX = e.touches?e.touches[0].clientX:e.clientX;
-    let percent = (clientX-rect.left)/rect.width;
-    percent = Math.max(0,Math.min(1,percent));
-    progressFill.style.width=percent*100+"%";
-    progressThumb.style.left=percent*100+"%";
-    audioPlayer.currentTime = percent*audioPlayer.duration;
-  }
-  function stopDragProgress(){ progressDragging=false; }
+  playBtn.addEventListener("click", () => {
+    if (audioPlayer.paused) {
+      audioPlayer.play();
+      playBtn.textContent = "⏸️";
+    } else {
+      audioPlayer.pause();
+      playBtn.textContent = "▶️";
+    }
+  });
 
-  progressBar.addEventListener("mousedown",startDragProgress);
-  progressBar.addEventListener("mousemove",moveDragProgress);
-  document.addEventListener("mouseup",stopDragProgress);
-  progressBar.addEventListener("touchstart",startDragProgress);
-  progressBar.addEventListener("touchmove",moveDragProgress);
-  document.addEventListener("touchend",stopDragProgress);
+  loopBtn.addEventListener("click", () => {
+    loopMode = loopMode === "all" ? "single" : "all";
+    loopBtn.textContent = loopMode === "all" ? "🔁" : "🔂";
+  });
 
 });
