@@ -98,7 +98,6 @@ h2 { margin: 10px 0 5px; font-size: 1.5em; }
 .message-btn:hover {
   transform: scale(1.1);
 }
-
 /* ===== مودال المعلومات ===== */
 .modal-overlay {
   position: fixed;
@@ -283,7 +282,7 @@ h2 { margin: 10px 0 5px; font-size: 1.5em; }
   border-radius: 50%;
 
   bottom: -20px;   /* الفقاعة الأصغر */
-  left: 14%;
+  left: -5%;
   opacity: 0.7;
 }
 
@@ -466,6 +465,75 @@ h2 { margin: 10px 0 5px; font-size: 1.5em; }
   background: #444;
 }
 
+/* زر الهلال */
+.religion-btn {
+  background: #000;             /* جوه المربع أسود */
+  border: 2px solid #888;       /* الحواف رمادية */
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;          /* نفس شكل باقي الأزرار */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 20px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.3); /* هالة خفيفة */
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.religion-btn:hover {
+  transform: scale(1.08);
+  border-color: #aaa; /* لون الحواف يتفتح شوي عند hover */
+}
+
+/* المودال الديني */
+.religion-modal {
+  background: radial-gradient(circle at top, #1a1a1a, #000);
+  border: 2px solid #666;
+  border-radius: 18px;
+  padding: 22px;
+  max-width: 320px;
+  text-align: center;
+  position: relative;
+  animation: modalFade 0.3s ease;
+}
+
+.religion-modal h3 {
+  font-size: 16px;
+  color: #fff;
+  margin-bottom: 15px;
+  line-height: 1.6;
+}
+
+.religion-modal ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.religion-modal li {
+  color: #ddd;
+  font-size: 14px;
+  padding: 6px 0;
+  border-bottom: 1px dashed #333;
+}
+
+.religion-modal li:last-child {
+  border-bottom: none;
+}
+
+.close-religion {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+
 /* ===============================
    📱 موبايل (افتراضي)
 ================================ */
@@ -507,7 +575,7 @@ h2 { margin: 10px 0 5px; font-size: 1.5em; }
 ================================ */
 @media (min-width: 900px) and (max-width: 1200px) and (orientation: landscape) {
   .container {
-    max-width: 95%;
+    max-width: 100%;
   }
 
   .profile-picture-wrapper {
