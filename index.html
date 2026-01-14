@@ -9,16 +9,25 @@
 </head>
 <body>
 
+<!-- ===== الخلفية الكبيرة ===== -->
+<div class="page-background"></div>
+
 <!-- ===== أزرار الزاوية ===== -->
 <div class="corner-buttons">
   <div class="secret-btn" id="secretBtn">
     <img src="lock.jpg" alt="secret">
   </div>
+
   <div class="about-btn" id="aboutBtn">
     <img src="info.png" alt="Info">
   </div>
+
   <div class="message-btn" id="openMessageModal">
     <img src="message.png" alt="رسائل">
+  </div>
+
+  <div class="religion-btn" id="religionBtn">
+    🌙
   </div>
 </div>
 
@@ -59,7 +68,7 @@
   </div>
 </div>
 
-<!-- ===== مودال الرسائل الجديد ===== -->
+<!-- ===== مودال الرسائل ===== -->
 <div class="modal-overlay" id="newMessageModal">
   <div class="modal-box message-modal">
     <p>لو حابب تكتبلي رسالة تقدر تكتب هنا</p>
@@ -77,11 +86,30 @@
   </div>
 </div>
 
-<!-- ===== مودال إرسال الرسالة بنجاح ===== -->
+<!-- ===== مودال نجاح ===== -->
 <div class="modal-overlay" id="successModal">
   <div class="modal-box message-modal">
-    <p>تم إرسال رسالتك بنجاح </p>
-    <button onclick="closeSuccessModal()">حسناً</button>
+    <p>تم إرسال رسالتك بنجاح</p>
+    <button>حسناً</button>
+  </div>
+</div>
+
+<!-- ===== مودال التذكير الديني ===== -->
+<div class="modal-overlay" id="religionModal">
+  <div class="modal-box religion-modal">
+    <button class="close-religion">✖</button>
+    <h3>﴾ وَاذْكُر ربَّكَ إِذَا نَسِيتَ ﴿</h3>
+    <ul>
+      <li>سُبحان الله</li>
+      <li>الحمدلله</li>
+      <li>الله أكبر</li>
+      <li>أستغفر الله</li>
+      <li>لا إله إلا الله</li>
+      <li>لا حول ولا قوة إلا بالله</li>
+      <li>سُبحان الله وبحمده</li>
+      <li>سُبحان الله العظيم</li>
+      <li>اللهم صلِّ وسلِّم على نبيِّنا محمَّد</li>
+    </ul>
   </div>
 </div>
 
@@ -89,7 +117,7 @@
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal-box voice-modal">
     <div class="voice-box">
-      <img src="voice_cover.jpg" alt="Voice Image" class="voice-img">
+      <img src="voice_cover.jpg" class="voice-img">
       <div class="voice-controls">
         <span id="voice-time">0:00 / 0:00</span>
         <div class="voice-progress-bar">
@@ -105,46 +133,49 @@
   </div>
 </div>
 
-<!-- الصوتيات -->
+<!-- الصوت -->
 <audio id="voicePlayer" src="Rody.mp3"></audio>
 <audio id="audioPlayer" src="قارئة الفنجان.mp3"></audio>
 
 <!-- ===== المحتوى الرئيسي ===== -->
 <div class="container">
+  <!-- البنر -->
   <div class="background-image"></div>
+
   <div class="profile-section">
     <div class="profile-picture-wrapper">
-      <img src="profile.gif" alt="صورة الملف الشخصي" class="profile-picture">
-      <img src="cata.gif" alt="Decoration" class="profile-decoration">
-      <div id="statusBubble">لكن سمائك ممطرتٌا وطريقكك مسدود مسدود</div>
+      <img src="profile.gif" class="profile-picture">
+      <img src="cata.gif" class="profile-decoration">
+      <div id="statusBubble">💔 إن لله وإن إليه راجعون</div>
     </div>
     <h2>Medy</h2>
     <p class="username">@mohammedy44</p>
+  </div>
 
-    <div class="social-links">
-      <a href="https://www.youtube.com/@Mohamed_Sayed3"><img src="youtube.png" alt="YouTube"></a>
-      <a href="https://www.instagram.com/mody.roo?igsh=cGZ0ZDBqcjZhNnds"><img src="instagram.png" alt="Instagram"></a>
-      <a href="https://discord.gg/TQVjWZYUa7"><img src="discord.png" alt="Discord"></a>
-      <a href="https://t.me/medycore"><img src="telegram.png" alt="Telegram"></a>
-    </div>
+  <!-- روابط السوشيال -->
+  <div class="social-links">
+    <a href="https://www.youtube.com/@Mohamed_Sayed3"><img src="youtube.png" alt="YouTube"></a>
+    <a href="https://www.instagram.com/mody.roo?igsh=cGZ0ZDBqcjZhNnds"><img src="instagram.png" alt="Instagram"></a>
+    <a href="https://discord.gg/TQVjWZYUa7"><img src="discord.png" alt="Discord"></a>
+    <a href="https://t.me/medycore"><img src="telegram.png" alt="Telegram"></a>
   </div>
 
   <!-- عداد الزوار -->
   <div class="visitor-count">
     <span id="visitor-count">1</span>
-    <img src="eye-icon.png" alt="علامة عين" class="eye-icon" />
+    <img src="eye-icon.png" class="eye-icon">
   </div>
 </div>
 
-<!-- ===== Music Box ===== -->
+<!-- ===== Music ===== -->
 <div class="music-box" id="musicBox">
-  <img id="currentSongImage" src="cover3.jpg" alt="Current Song" />
+  <img id="currentSongImage" src="cover3.jpg">
 </div>
 
 <div class="song-list" id="songList">
   <div class="song" id="qar2atSong">
     <div class="song-info">
-      <img src="cover3.jpg" alt="cover" />
+      <img src="cover3.jpg">
       <span>.قارئة الفنجان</span>
     </div>
     <div class="song-controls">
