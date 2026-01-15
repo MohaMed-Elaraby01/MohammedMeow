@@ -232,7 +232,7 @@ h2 { margin: 10px 0 5px; font-size: 1.5em; }
 /* فقاعة الحالة فوق صورة البروفايل */
 #statusBubble {
   position: absolute;
-  top: -60px;
+  top: -80px;
   right: -130px;
   background: #222;
   color: #fff;
