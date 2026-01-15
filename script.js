@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // === ضبط صندوق الموسيقى ===
   currentSongImage.src = "cover1.jpg"; // الكفر الخاص بالصندوق
-  audioPlayer.src = "Eshtagtilak.mp3"; // الأغنية الوحيدة
+  audioPlayer.src = "قلب همومه ملايين.mp3"; // الأغنية الوحيدة
 
   // ===== مودال الرسائل =====
   messageBtn.addEventListener("click", e => {
