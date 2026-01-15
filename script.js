@@ -129,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
   closePassword.addEventListener("click", () => passwordModal.style.display = "none");
   checkPassword.addEventListener("click", () => {
     const ans = passwordInput.value.trim();
-    if (ans === "راون" || ans === "روان") {
+    if (ans === "سوهير" || ans === "سهير") {
       passwordModal.style.display = "none";
       modal.style.display = "flex";
       voicePlayer.pause();
