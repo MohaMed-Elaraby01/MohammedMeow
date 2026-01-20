@@ -1,40 +1,43 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+  function openModal(id) {
+    document.getElementById(id)?.classList.add("active");
+  }
+
+  function closeModal(id) {
+    document.getElementById(id)?.classList.remove("active");
+  }
+
   // ===== الفقاعة =====
   const statusBubble = document.getElementById("statusBubble");
-  setTimeout(() => {
-    statusBubble.classList.add("show");
-    setTimeout(() => statusBubble.classList.remove("show"), 8000);
-  }, 1000);
+  if (statusBubble) {
+    setTimeout(() => {
+      statusBubble.classList.add("show");
+      setTimeout(() => statusBubble.classList.remove("show"), 6000);
+    }, 1000);
+  }
 
   // ===== عداد الزوار =====
   let visitorCount = parseInt(localStorage.getItem("visitorCount") || "250") + 1;
   localStorage.setItem("visitorCount", visitorCount);
-  document.getElementById("visitor-count").innerText = visitorCount;
+  const visitorEl = document.getElementById("visitor-count");
+  if (visitorEl) visitorEl.innerText = visitorCount;
 
-  // ===== زر الهلال (ديني) =====
+  // ===== زر الهلال =====
   const religionBtn = document.getElementById("religionBtn");
   const religionModal = document.getElementById("religionModal");
   const closeReligion = document.querySelector(".close-religion");
 
-  if (religionBtn) {
-    religionBtn.addEventListener("click", e => {
-      e.stopPropagation();
-      religionModal.style.display = "flex";
-    });
-  }
+  religionBtn?.addEventListener("click", e => {
+    e.stopPropagation();
+    openModal("religionModal");
+  });
 
-  if (closeReligion) {
-    closeReligion.addEventListener("click", () => {
-      religionModal.style.display = "none";
-    });
-  }
+  closeReligion?.addEventListener("click", () => closeModal("religionModal"));
 
-  if (religionModal) {
-    religionModal.addEventListener("click", e => {
-      if (e.target === religionModal) religionModal.style.display = "none";
-    });
-  }
+  religionModal?.addEventListener("click", e => {
+    if (e.target === religionModal) closeModal("religionModal");
+  });
 
   // ===== مودالات =====
   const passwordModal = document.getElementById("passwordModal");
@@ -56,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeEmptyMessage = document.getElementById("closeEmptyMessage");
 
   const successModal = document.getElementById("successModal");
-  const closeSuccess = successModal.querySelector("button");
+  const closeSuccess = successModal?.querySelector("button");
 
   const aboutModal = document.getElementById("aboutModal");
   const aboutBtn = document.getElementById("aboutBtn");
@@ -72,6 +75,15 @@ document.addEventListener("DOMContentLoaded", () => {
   const voiceTime = document.getElementById("voice-time");
   let voiceUserInteracted = false;
   let draggingVoice = false;
+
+const profilePic = document.querySelector('.profile-picture');
+const loveBoxes = document.querySelector('.love-boxes');
+
+profilePic.addEventListener('click', () => {
+  loveBoxes.classList.remove('show'); // reset
+  void loveBoxes.offsetWidth;         // trick لإعادة الأنيميشن
+  loveBoxes.classList.add('show');
+});
 
   // ===== صندوق الموسيقى =====
   const musicBox = document.getElementById("musicBox");
@@ -91,71 +103,77 @@ document.addEventListener("DOMContentLoaded", () => {
   let dragging = false;
 
   // === ضبط صندوق الموسيقى ===
-  currentSongImage.src = "cover1.jpg"; // الكفر الخاص بالصندوق
-  audioPlayer.src = "قلب همومه ملايين.mp3"; // الأغنية الوحيدة
+  currentSongImage.src = "cover1.png"; // الكفر الخاص بالصندوق
+  audioPlayer.src = "اسكت يا قلبي.mp3"; // الأغنية الوحيدة
 
   // ===== مودال الرسائل =====
   messageBtn.addEventListener("click", e => {
-    e.stopPropagation();
-    newMessageModal.style.display = "flex";
-    messageInput.value = "";
-    messageInput.focus();
-  });
-  closeNewMessage.addEventListener("click", () => newMessageModal.style.display = "none");
+  e.stopPropagation();
+  openModal("newMessageModal");
+  messageInput.value = "";
+  // شيلنا focus
+});
+  closeNewMessage.addEventListener("click", () => closeModal("newMessageModal"));
   sendMessageBtn.addEventListener("click", () => {
     const message = messageInput.value.trim();
     if (!message) {
-      newMessageModal.style.display = "none";
-      emptyMessageModal.style.display = "flex";
+      closeModal("newMessageModal");
+      openModal("emptyMessageModal");
       return;
     }
     const formURL = "https://docs.google.com/forms/d/e/1FAIpQLSc_UhUjJ86Ft3KhcHL1EMS2j3Ps75ZujAns287XY66BY7bQ0A/formResponse";  
     const entryID = "214003542";  
     fetch(`${formURL}?entry.${entryID}=${encodeURIComponent(message)}`, { method: "POST", mode: "no-cors" }).then(() => {
-      newMessageModal.style.display = "none";
+      closeModal("newMessageModal");
       messageInput.value = "";
-      successModal.style.display = "flex";
+      openModal("successModal");
     });
   });
-  closeEmptyMessage.addEventListener("click", () => emptyMessageModal.style.display = "none");
-  closeSuccess.addEventListener("click", () => successModal.style.display = "none");
+  closeEmptyMessage.addEventListener("click", () => closeModal("emptyMessageModal"));
+  closeSuccess.addEventListener("click", () => closeModal("successModal"));
 
   // ===== مودال كلمة السر =====
   secretBtn.addEventListener("click", () => {
-    passwordModal.style.display = "flex";
-    passwordInput.value = "";
-    passwordInput.focus();
-  });
-  closePassword.addEventListener("click", () => passwordModal.style.display = "none");
+  openModal("passwordModal");
+  passwordInput.value = "";
+  // شيلنا focus
+});
+  closePassword.addEventListener("click", () => closeModal("passwordModal"));
   checkPassword.addEventListener("click", () => {
     const ans = passwordInput.value.trim();
     if (ans === "منا" || ans === "منى") {
-      passwordModal.style.display = "none";
-      modal.style.display = "flex";
+      closeModal("passwordModal");
+      openModal("modalOverlay");
       voicePlayer.pause();
       playPauseVoice.textContent = "▶️";
     } else {
-      passwordModal.style.display = "none";
-      wrongPasswordModal.style.display = "flex";
+      closeModal("passwordModal");
+      openModal("wrongPasswordModal");
     }
   });
-  closeWrongPassword.addEventListener("click", () => wrongPasswordModal.style.display = "none");
+  closeWrongPassword.addEventListener("click", () => closeModal("wrongPasswordModal"));
 
   // ===== مودال المعلومات =====
   aboutBtn.addEventListener("click", e => {
     e.stopPropagation();
-    aboutModal.style.display = aboutModal.style.display === "flex" ? "none" : "flex";
+    aboutModal.classList.toggle("active");
   });
-  closeAbout.addEventListener("click", () => aboutModal.style.display = "none");
+  closeAbout.addEventListener("click", () => closeModal("aboutModal"));
   aboutModal.querySelector(".about-modal").addEventListener("click", e => e.stopPropagation());
 
-  // ===== صندوق الموسيقى =====
-  musicBox.addEventListener("click", e => {
-    e.stopPropagation();
-    songList.style.display = songList.style.display === "flex" ? "none" : "flex";
-  });
-  songList.addEventListener("click", e => e.stopPropagation());
-  document.addEventListener("click", () => { aboutModal.style.display = "none"; songList.style.display = "none"; });
+// ===== صندوق الموسيقى =====
+musicBox.addEventListener("click", e => {
+  e.stopPropagation();
+  songList.classList.toggle("active");
+});
+
+songList.addEventListener("click", e => e.stopPropagation());
+
+document.addEventListener("click", () => {
+  closeModal("aboutModal");
+  songList.classList.remove("active");
+});
+
 
   // ===== أزرار الموسيقى =====
   function formatTime(sec) {
@@ -165,49 +183,56 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   playBtn.addEventListener("click", e => {
-    e.stopPropagation();
-    if (audioPlayer.paused) {
-      audioPlayer.play();
-      playBtn.textContent = "⏸️";
-    } else {
-      audioPlayer.pause();
-      playBtn.textContent = "▶️";
-    }
-  });
+  e.stopPropagation();
 
-  nextBtn.addEventListener("click", () => {
-    audioPlayer.currentTime = 0;
+  if (audioPlayer.paused) {
     audioPlayer.play();
     playBtn.textContent = "⏸️";
-  });
-
-  prevBtn.addEventListener("click", () => {
-    audioPlayer.currentTime = 0;
-    audioPlayer.play();
-    playBtn.textContent = "⏸️";
-  });
-
-  loopBtn.addEventListener("click", e => {
-    e.stopPropagation();
-    loopMode = loopMode === "all" ? "single" : "all";
-    loopBtn.textContent = loopMode === "all" ? "🔁" : "🔂";
-  });
-
-  audioPlayer.addEventListener("timeupdate", () => {
-    if (!audioPlayer.duration) return;
-    const percent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
-    progressFill.style.width = percent + "%";
-    progressThumb.style.left = percent + "%";
-    timeLabel.textContent = `${formatTime(audioPlayer.currentTime)} / ${formatTime(audioPlayer.duration)}`;
-  });
-
-  audioPlayer.addEventListener("ended", () => {
+  } else {
+    audioPlayer.pause();
     playBtn.textContent = "▶️";
-    if (loopMode === "single") {
-      audioPlayer.currentTime = 0;
-      audioPlayer.play();
-    }
-  });
+  }
+});
+
+nextBtn.addEventListener("click", e => {
+  e.stopPropagation();
+  audioPlayer.currentTime = 0;
+  audioPlayer.play();
+});
+
+prevBtn.addEventListener("click", e => {
+  e.stopPropagation();
+  audioPlayer.currentTime = 0;
+  audioPlayer.play();
+});
+
+// ===== زر اللوب =====
+loopBtn.addEventListener("click", e => {
+  e.stopPropagation();
+
+  if (loopMode === "all") {
+    // تكرار أغنية واحدة
+    loopMode = "single";
+    audioPlayer.loop = true;
+    loopBtn.textContent = "🔂";
+  } else {
+    // إلغاء التكرار
+    loopMode = "all";
+    audioPlayer.loop = false;
+    loopBtn.textContent = "🔁";
+  }
+});
+
+audioPlayer.addEventListener("timeupdate", () => {
+  if (!audioPlayer.duration) return;
+
+  const percent = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+  progressFill.style.width = percent + "%";
+  progressThumb.style.left = percent + "%";
+  timeLabel.textContent =
+    formatTime(audioPlayer.currentTime) + " / " +
+    formatTime(audioPlayer.duration);
+});
 
   // ===== سحب شريط التقدم =====
   function seek(e) {
@@ -237,11 +262,11 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   closeVoice.addEventListener("click", () => {
-    voiceUserInteracted = false;
-    voicePlayer.pause();
-    voicePlayer.currentTime = 0;
-    modal.style.display = "none";
-  });
+  voiceUserInteracted = false;
+  voicePlayer.pause();
+  voicePlayer.currentTime = 0;
+  closeModal("modalOverlay");
+});
 
   voicePlayer.addEventListener("timeupdate", () => {
     const percent = (voicePlayer.currentTime / voicePlayer.duration) * 100 || 0;
