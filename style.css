@@ -701,7 +701,7 @@ h2 { margin: 10px 0 5px; font-size: 1.5em; }
 
 /* ===== Container Ultra Dark Fix ===== */
 .container {
-  background: #000500;          /* أسود غامق حقيقي */
+  background: #000900;          /* أسود غامق حقيقي */
   border: 1px solid rgba(255,255,255,0.06);
   box-shadow: 0 0 50px rgba(0,0,0,0.95);
 }
