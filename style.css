@@ -6,7 +6,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 90vh;
+  min-height: 95vh;
   flex-direction: column;
   position: relative;
 }
@@ -27,22 +27,32 @@ h2 { margin: 10px 0 5px; font-size: 1.5em; }
 .social-links img { width: 30px; height: 30px; }
 
 .visitor-count {
-  position: fixed;
-  left: 10px;
-  bottom: 10px;
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+
   display: flex;
   align-items: center;
-  z-index: 1000;
-  padding: 5px 10px;
-  border: 2px solid #333;
-  border-radius: 8px;
-  background-color: #111;
-  gap: 5px;
-  cursor: pointer;
-}
-.views-label { color: #ccc; font-size: 13px; user-select: none; }
+  gap: 6px;
 
-.eye-icon { width: 20px; height: 20px; margin-right: 5px; }
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+/* الرقم */
+.visitor-count span {
+  color: #9a9aa5;
+  font-size: 14px;
+}
+
+/* العين */
+.eye-icon {
+  width: 20px;
+  height: 20px;
+  opacity: 0.85;
+  filter: drop-shadow(0 0 8px rgba(220,220,220,0.45));
+}
 
 /* ===== أزرار الزاوية ===== */
 .corner-buttons {
@@ -99,16 +109,6 @@ h2 { margin: 10px 0 5px; font-size: 1.5em; }
   transform: scale(1.1);
 }
 /* ===== مودال المعلومات ===== */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
-  backdrop-filter: blur(4px);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 2500;
-}
 
 .modal-box.about-modal {
   background: #111;
@@ -294,15 +294,63 @@ h2 { margin: 10px 0 5px; font-size: 1.5em; }
 }
 
 /* مودال كلمة السر والفويس */
+/* ===== Modal Overlay (Ultra Smooth - Full Replacement) ===== */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.6);
-  backdrop-filter: blur(6px);
-  display: none;
+
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(5px);
+
+  display: flex;
   align-items: center;
   justify-content: center;
+
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.97);
+
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease,
+    backdrop-filter 0.25s ease;
+
+  will-change: opacity, transform;
   z-index: 2000;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: scale(1);
+  backdrop-filter: blur(8px);
+}
+
+/* ===== Modal Content Animation ===== */
+.modal-box,
+.about-modal,
+.password-modal,
+.message-modal,
+.voice-modal,
+.religion-modal,
+.small-modal {
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+  will-change: opacity, transform;
+}
+
+.modal-overlay.active .modal-box,
+.modal-overlay.active .about-modal,
+.modal-overlay.active .password-modal,
+.modal-overlay.active .message-modal,
+.modal-overlay.active .voice-modal,
+.modal-overlay.active .religion-modal,
+.modal-overlay.active .small-modal {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .modal-box {
@@ -404,22 +452,6 @@ h2 { margin: 10px 0 5px; font-size: 1.5em; }
 /* Music Box */
 .music-box { position: absolute; top: 10px; left: 10px; width: 70px; height: 70px; border: 3px solid #888; border-radius: 12px; overflow: hidden; cursor: pointer; z-index: 100; background-color: #313131; }
 .music-box img { width: 100%; height: 100%; object-fit: cover; }
-
-/* Song List */
-.song-list {
-  position: absolute;
-  top: 90px;
-  left: 10px;
-  background-color: #111;
-  border-radius: 10px;
-  display: none;
-  flex-direction: column;
-  width: 300px;
-  z-index: 99;
-  padding: 5px;
-  border: 3px solid;
-  animation: rgb-border 3s linear infinite;
-}
 
 @keyframes rgb-border {
   0% { border-color: #191919; }
@@ -648,4 +680,247 @@ h2 { margin: 10px 0 5px; font-size: 1.5em; }
     max-width: 200px;
     font-size: 15px;
   }
+}
+
+/* ===============================
+   🌑 Dark Deep Anime Patch
+   (CLEAN – replaces Silver Patch)
+================================ */
+
+:root {
+  --dark-main: #f1f1f1;
+  --dark-muted: #8a8a8a;
+  --dark-bg: #000000;
+  --dark-soft: #0b0b0f;
+  --dark-card: #111115;
+  --dark-border: rgba(255,255,255,0.06);
+  --dark-glow: rgba(0,0,0,0.9);
+}
+
+/* الخلفية العامة */
+
+/* ===== Container Ultra Dark Fix ===== */
+.container {
+  background: #000900;          /* أسود غامق حقيقي */
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 0 50px rgba(0,0,0,0.95);
+}
+
+
+/* صورة البروفايل */
+.profile-picture {
+  border: 2px solid #1c1c1c;
+  box-shadow: 0 0 14px rgba(0,0,0,0.85);
+}
+
+/* الاسم */
+h2 {
+  color: var(--dark-main);
+  letter-spacing: 0.6px;
+}
+
+.username {
+  color: var(--dark-muted);
+}
+
+/* فقاعة الحالة */
+#statusBubble {
+  background: rgba(16,16,20,0.95);
+  border: 1px solid var(--dark-border);
+  box-shadow: 0 0 18px rgba(0,0,0,0.9);
+}
+
+/* أزرار الزوايا */
+.corner-buttons div,
+.message-btn,
+.secret-btn,
+.about-btn,
+.religion-btn {
+  background: rgba(18,18,22,0.9);
+  border: 1px solid var(--dark-border);
+}
+
+.corner-buttons div:hover,
+.message-btn:hover,
+.religion-btn:hover {
+  box-shadow: 0 0 16px rgba(0,0,0,0.9);
+}
+
+/* المودالات */
+.modal-box,
+.about-modal,
+.password-modal,
+.message-modal,
+.voice-modal,
+.religion-modal,
+.small-modal {
+  background: rgba(14,14,18,0.96);
+  border: 1px solid var(--dark-border);
+  box-shadow: 0 0 35px rgba(0,0,0,0.95);
+}
+
+/* الأزرار */
+button {
+  background: rgba(22,22,26,0.9);
+  border: 1px solid var(--dark-border);
+  color: var(--dark-main);
+}
+
+button:hover {
+  background: rgba(32,32,36,0.95);
+}
+
+/* السوشيال */
+.social-links img {
+  filter: grayscale(30%) drop-shadow(0 0 6px rgba(0,0,0,0.9));
+}
+
+.social-links img:hover {
+  filter: grayscale(0%) drop-shadow(0 0 10px rgba(0,0,0,0.95));
+}
+
+/* Music Box */
+.music-box {
+  background: rgba(18,18,22,0.9);
+  border: 1px solid var(--dark-border);
+  box-shadow: 0 0 16px rgba(0,0,0,0.9);
+}
+
+/* Song List */
+.song-list {
+  background: rgba(14,14,18,0.97);
+  border: 1px solid var(--dark-border);
+  animation: none;
+}
+
+/* أنيميشن هادي */
+.profile-picture-wrapper {
+  animation: floatSoft 4.5s ease-in-out infinite;
+}
+
+@keyframes floatSoft {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+/* ===== Visitor Counter Fix ===== */
+
+.eye-icon {
+  filter: 
+    brightness(1.1)
+    drop-shadow(0 0 4px rgba(200,200,200,0.35))
+    drop-shadow(0 0 8px rgba(200,200,200,0.25));
+
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+/* ===== Love Anime Boxes ===== */
+
+.love-boxes {
+  position: absolute;
+  top: -55px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.love-box {
+  background: rgba(20,20,26,0.9);
+  color: #e6e6f0;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  border: 1px solid rgba(200,200,220,0.25);
+  transform: rotate(-12deg) translateY(10px);
+  box-shadow: 0 0 10px rgba(200,200,220,0.25);
+}
+
+/* لما تظهر */
+.love-boxes.show {
+  animation: lovePop 2.6s ease forwards;
+}
+
+@keyframes lovePop {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px);
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  70% {                 /* 👈 يفضل ظاهر مدة أطول */
+    opacity: 1;
+    transform: translateX(-50%) translateY(-15px);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-35px);
+  }
+}
+
+/* ===== Modal Box Animation ===== */
+.modal-box,
+.message-modal,
+.voice-modal,
+.religion-modal,
+.small-modal {
+  transform: translateY(20px) scale(0.96);
+  opacity: 0;
+  transition: transform 0.35s ease, opacity 0.35s ease;
+}
+
+/* ===== Active State ===== */
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-overlay.active .modal-box,
+.modal-overlay.active .message-modal,
+.modal-overlay.active .voice-modal,
+.modal-overlay.active .religion-modal,
+.modal-overlay.active .small-modal {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+/* ===== Music Box Smooth Animation (FINAL) ===== */
+.song-list {
+  position: absolute;
+  top: 90px;
+  left: 10px;
+
+  background: rgba(14,14,18,0.97);
+  border-radius: 10px;
+  width: 300px;
+  padding: 5px;
+
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: 0 0 25px rgba(0,0,0,0.9);
+
+  display: flex;
+  flex-direction: column;
+
+  opacity: 0;
+  transform: translateY(-10px) scale(0.97);
+  pointer-events: none;
+
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+
+  will-change: opacity, transform;
+  z-index: 99;
+}
+
+.song-list.active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
 }
