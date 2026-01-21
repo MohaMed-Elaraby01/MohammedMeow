@@ -23,13 +23,7 @@ h2 { margin: 10px 0 5px; font-size: 1.5em; }
 .username { color: #aaa; margin-bottom: 15px; }
 
 .social-links { display: flex; justify-content: center; }
-.social-links a { margin: 0 10px; }
 .social-links img { width: 30px; height: 30px; }
-
-.visitor-count {
-  position: absolute;
-  bottom: 12px;
-  left: 12px;
 
   display: flex;
   align-items: center;
@@ -450,7 +444,6 @@ h2 { margin: 10px 0 5px; font-size: 1.5em; }
 }
 
 /* Music Box */
-.music-box { position: absolute; top: 10px; left: 10px; width: 70px; height: 70px; border: 3px solid #888; border-radius: 12px; overflow: hidden; cursor: pointer; z-index: 100; background-color: #313131; }
 .music-box img { width: 100%; height: 100%; object-fit: cover; }
 
 @keyframes rgb-border {
@@ -892,10 +885,6 @@ button:hover {
 
 /* ===== Music Box Smooth Animation (FINAL) ===== */
 .song-list {
-  position: absolute;
-  top: 90px;
-  left: 10px;
-
   background: rgba(14,14,18,0.97);
   border-radius: 10px;
   width: 300px;
@@ -923,4 +912,307 @@ button:hover {
   opacity: 1;
   transform: translateY(0) scale(1);
   pointer-events: auto;
+}
+
+/* ===== Profile Image Fix ===== */
+.profile-picture-wrapper {
+  width: 120px;
+  height: 120px;
+  margin-top: -55px; /* نص الصورة بس */
+}
+
+.profile-picture {
+  box-shadow: 0 0 18px rgba(0,0,0,0.9);
+}
+
+/* ===== Bottom Bar (FINAL FIX) ===== */
+.bottom-bar {
+  position: absolute;
+  bottom: 0;        /* يلزق في آخر الكارت */
+  left: 0;
+  right: 0;
+  height: 48px;
+
+  background: rgba(20,20,28,0.9);
+  backdrop-filter: blur(6px);
+  border-radius: 0 0 18px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;       /* عشان يكون فوق المحتوى */
+}
+
+/* ===== Visitor Left ===== */
+.visitor-count {
+  position: static;
+  justify-self: start;
+}
+
+/* ===== Social Right ===== */
+.bottom-social {
+  display: flex;
+  gap: 12px;
+  justify-self: end;
+}
+
+.bottom-social img {
+  width: 26px;
+  height: 26px;
+  filter: drop-shadow(0 0 6px rgba(200,200,255,0.25));
+}
+
+/* مساحة علوية بدل البنر */
+.profile-section {
+  padding-top: 70px; /* دي اللي كانت البنر */
+}
+
+/* الصورة تطلع نصها بس */
+.profile-picture-wrapper {
+  margin-top: -60px;
+}
+
+/* ===== Fix Card Overflow ===== */
+.container {
+  overflow: visible; /* السماح بالخروج */
+  padding-top: 40px; /* توسعة خفيفة للكارت */
+}
+
+/* ===== Clip only inside sections ===== */
+.profile-section {
+  position: relative;
+}
+
+/* ===== Status Bubble Fix ===== */
+#statusBubble {
+  z-index: 20; /* فوق الكارت */
+}
+
+/* ===== Love Boxes Fix ===== */
+.love-boxes {
+  z-index: 20;
+}
+
+/* ===== Profile Image Layer ===== */
+.profile-picture-wrapper {
+  position: relative;
+  z-index: 15;
+}
+
+/* ===== Gradient Card Blend ===== */
+.container {
+  background: linear-gradient(
+    180deg,
+    #0A0A0A 0%,
+    #010101 22%,
+    #000000 48%,
+    #000000 72%,
+    #111111 100%
+  );
+
+  backdrop-filter: blur(4px);
+  border-radius: 10px;
+
+  box-shadow:
+    0 0 40px rgba(0,0,0,0.85),
+    inset 0 0 30px rgba(255,255,255,0.02);
+}
+
+/* ===== Bottom Glass Bar ===== */
+/* الشريط السفلي */
+.bottom-glass {
+  position: relative; /* بدل absolute */
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  height: 48px;
+  padding: 0 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(8px);
+  border-radius: 0 0 18px 18px;
+}
+
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,0.035);
+
+  box-shadow:
+    inset 0 0 10px rgba(255,255,255,0.025),
+    0 0 18px rgba(0,0,0,0.75);
+}
+
+/* الشمال – العداد */
+.bottom-glass .visitor-count {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* اليمين – السوشيال */
+.bottom-glass .social-links {
+  display: flex;
+  gap: 8px;
+}
+
+.bottom-glass .social-links img {
+  width: 24px;
+  height: 24px;
+  opacity: 0.85;
+  filter: drop-shadow(0 0 6px rgba(200,200,255,0.25));
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.bottom-social img:hover {
+  opacity: 1;
+  transform: scale(1.08);
+}
+
+.music-box {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  width: 60px;
+  height: 60px;
+  z-index: 9999;
+}
+
+.song-list {
+  position: fixed;
+  top: 86px;
+  left: 12px;
+  z-index: 9998;
+}
+
+/* منع السوشيال القديمة من الظهور لوحدها */
+.social-section {
+  position: static;
+  margin: 0;
+}
+
+.bottom-glass {
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+/* ===== Music Controls Buttons (Soft Style) ===== */
+.song-controls button {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #fff;
+
+  font-size: 17px;
+  padding: 6px 10px;
+
+  border-radius: 999px; /* 👈 يخليها دائرية */
+  cursor: pointer;
+
+  backdrop-filter: blur(6px);
+  transition: 
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* Hover */
+.song-controls button:hover {
+  background: rgba(255,255,255,0.14);
+  transform: scale(1.12);
+  box-shadow: 0 0 12px rgba(255,255,255,0.15);
+}
+
+/* زر التشغيل يكون أوضح */
+.song-controls .play-btn {
+  background: rgba(255,255,255,0.18);
+  padding: 8px 14px;
+  font-size: 18px;
+}
+
+/* زر اللوب أنعم */
+.song-controls .loop-btn {
+  opacity: 0.85;
+}
+/* ===== FORCE ROUND MUSIC BUTTONS ===== */
+#qar2atSong .song-controls button {
+  border-radius: 50% !important;
+  width: 36px;
+  height: 36px;
+  padding: 0 !important;
+
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.25);
+  color: #fff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#qar2atSong .song-controls button:hover {
+  transform: scale(1.15);
+  box-shadow: 0 0 12px rgba(255,255,255,0.25);
+}
+
+/* زر التشغيل أكبر */
+#qar2atSong .play-btn {
+  width: 44px;
+  height: 44px;
+  font-size: 18px;
+}
+
+/* ===== Music Box Shape Fix ===== */
+.music-box {
+  border-radius: 16px;           /* 👈 حواف ناعمة */
+  overflow: hidden;              /* 👈 مهم عشان الصورة */
+}
+
+/* خلي الصورة نفسها ناعمة */
+.music-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;        /* 👈 تاخد نفس الانحناء */
+}
+
+/* ===== Page Background (Light Blur) ===== */
+.page-background {
+  position: fixed;
+  inset: 0;
+
+  background: url("background.png") center / cover no-repeat;
+
+  filter: blur(4px) brightness(0.55); /* 👈 بلور خفيف */
+  transform: scale(1.05);             /* يمنع حواف البلور */
+
+  z-index: -1;
+}
+
+.visitor-count {
+  display: flex;
+  align-items: center; /* 👈 يساويهم رأسيًا */
+  gap: 4px;
+}
+
+.visitor-count .eye-icon {
+  display: block;
+}
+/* ===== Fix Bottom Glass Alignment ===== */
+
+.bottom-glass {
+  margin-bottom: -1px; /* 👈 يسحب الشريط لتحت سنة */
+  border-radius: 0 0 10px 10px; /* نفس Radius الكارت */
+}
+
+/* ===== Fix Page Scroll ===== */
+html, body {
+  overflow-x: hidden;  /* يمنع السكرول الأفقي */
+  margin: 0;
+  padding: 0;
 }
