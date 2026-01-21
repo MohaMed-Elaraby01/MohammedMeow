@@ -10,9 +10,32 @@
 </head>
 <body>
 
+<!-- ===== Music ===== -->
+<div class="music-box" id="musicBox">
+  <img id="currentSongImage" src="cover1.png">
+</div>
+
+<div class="song-list" id="songList">
+  <div class="song" id="qar2atSong">
+    <div class="song-info">
+      <img src="cover2.gif">
+      <span>.اسكت يا قلبي</span>
+    </div>
+    <div class="song-controls">
+      <button class="loop-btn">🔁</button>
+      <button class="prev-btn">◀️</button>
+      <button class="play-btn">▶️</button>
+      <button class="next-btn">⏩</button>
+      <span class="song-time">0:00 / 0:00</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill"></div>
+      <div class="progress-thumb"></div>
+    </div>
+  </div>
+</div>
 <!-- ===== الخلفية الكبيرة ===== -->
 <div class="page-background"></div>
-
 <!-- ===== أزرار الزاوية ===== -->
 <div class="corner-buttons">
   <div class="secret-btn" id="secretBtn">
@@ -140,8 +163,6 @@
 
 <!-- ===== المحتوى الرئيسي ===== -->
 <div class="container">
-  <!-- البنر -->
-  <div class="background-image"></div>
 
   <div class="profile-section">
     <div class="profile-picture-wrapper">
@@ -158,44 +179,23 @@
     <p class="username">@mohammedy44</p>
   </div>
 
-  <!-- روابط السوشيال -->
-  <div class="social-links">
-    <a href="https://www.youtube.com/@Mohamed_Sayed3"><img src="youtube.png" alt="YouTube"></a>
-    <a href="https://www.instagram.com/mody.roo?igsh=cGZ0ZDBqcjZhNnds"><img src="instagram.png" alt="Instagram"></a>
-    <a href="https://discord.gg/TQVjWZYUa7"><img src="discord.png" alt="Discord"></a>
-    <a href="https://t.me/medycore"><img src="telegram.png" alt="Telegram"></a>
-  </div>
-
   <!-- عداد الزوار -->
+  <div class="bottom-glass">
+
   <div class="visitor-count">
     <span id="visitor-count">1</span>
     <img src="eye-icon.png" class="eye-icon">
   </div>
-</div>
 
-<!-- ===== Music ===== -->
-<div class="music-box" id="musicBox">
-  <img id="currentSongImage" src="cover1.png">
-</div>
-
-<div class="song-list" id="songList">
-  <div class="song" id="qar2atSong">
-    <div class="song-info">
-      <img src="cover2.gif">
-      <span>.اسكت يا قلبي</span>
-    </div>
-    <div class="song-controls">
-      <button class="loop-btn">🔁</button>
-      <button class="prev-btn">◀️</button>
-      <button class="play-btn">▶️</button>
-      <button class="next-btn">⏩</button>
-      <span class="song-time">0:00 / 0:00</span>
-    </div>
-    <div class="progress-bar">
-      <div class="progress-fill"></div>
-      <div class="progress-thumb"></div>
+  <div class="social-section">
+    <div class="social-links">
+      <a href="https://www.youtube.com/@Mohamed_Sayed3"><img src="youtube.png"></a>
+      <a href="https://www.instagram.com/mody.roo?igsh=cGZ0ZDBqcjZhNnds"><img src="instagram.png"></a>
+      <a href="https://discord.gg/TQVjWZYUa7"><img src="discord.png"></a>
+      <a href="https://t.me/medycore"><img src="telegram.png"></a>
     </div>
   </div>
+
 </div>
 
 <script src="script.js"></script>
